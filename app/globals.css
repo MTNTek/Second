@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hero Slider Animations */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Custom transition for slide content */
+  .slide-enter {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+
+  .slide-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.6s ease-out;
+  }
+
+  .slide-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .slide-exit-active {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: all 0.6s ease-out;
+  }
+}

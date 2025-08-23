@@ -32,7 +32,14 @@
     "security:check": "npm audit && node scripts/deploy-check.js",
     "prod:setup": "npm run deploy:check && npm run build:production",
     "docker:build": "docker build -t perry-eden-group .",
-    "docker:run": "docker run -p 3000:3000 --env-file .env.production perry-eden-group"
+    "docker:run": "docker run -p 3000:3000 --env-file .env.production perry-eden-group",
+    "master:setup": "node scripts/master-production-setup.js",
+    "health:check": "curl -f http://localhost:3000/api/health || exit 1",
+    "test:e2e": "npx playwright test",
+    "test:e2e:ui": "npx playwright test --ui",
+    "test:performance": "npm run performance:audit && curl -s http://localhost:3000/api/performance",
+    "production:validate": "npm run master:setup && npm run health:check",
+    "production:deploy": "npm run production:validate && npm run docker:build && npm run docker:run"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",

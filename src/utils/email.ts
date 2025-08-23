@@ -44,6 +44,7 @@ export function generateApplicationEmailTemplate(
         <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
             .header { background-color: #102a43; color: white; padding: 20px; text-align: center; }
+            .logo { width: 60px; height: 60px; margin: 0 auto 15px; }
             .content { padding: 20px; }
             .footer { background-color: #f4f4f4; padding: 15px; text-align: center; }
             .highlight { background-color: #f59e0b; color: white; padding: 10px; border-radius: 5px; display: inline-block; }
@@ -51,6 +52,11 @@ export function generateApplicationEmailTemplate(
     </head>
     <body>
         <div class="header">
+            <div class="logo">
+                <img src="${process.env.NEXT_PUBLIC_BASE_URL || 'https://perryedengroup.com'}/company_logo_transparent.png" 
+                     alt="Perry Eden Group Logo" 
+                     style="width: 60px; height: 60px; object-fit: contain;">
+            </div>
             <h1>Perry Eden Group</h1>
             <p>Your ${type} Application Received</p>
         </div>

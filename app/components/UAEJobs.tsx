@@ -1,136 +1,33 @@
 import React, { useState } from 'react';
-import { Briefcase, MapPin, DollarSign, Clock, Users, Building, Search, ArrowRight, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { useUAEJobs } from '../../src/hooks/useApi';
+import { Briefcase, MapPin, DollarSign, Clock, Users, Building, Search, MessageCircle } from 'lucide-react';
 
 const UAEJobs: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [formData, setFormData] = useState({
-    contactName: '',
-    contactEmail: '',
-    contactPhone: '',
-    industry: '',
-    jobTitle: '',
-    experience: '',
-    currentLocation: '',
-    visaStatus: 'visit',
-    availability: 'immediate'
-  });
 
-  const { submitApplication, loading, error, data } = useUAEJobs();
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      await submitApplication(formData);
-      setSubmitted(true);
-      // Reset form
-      setFormData({
-        contactName: '',
-        contactEmail: '',
-        contactPhone: '',
-        industry: '',
-        jobTitle: '',
-        experience: '',
-        currentLocation: '',
-        visaStatus: 'visit',
-        availability: 'immediate'
-      });
-    } catch (err) {
-      // Error is handled by the hook
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+  const handleWhatsAppInquiry = (jobTitle: string) => {
+    const message = `Hi, I would like to inquire about the ${jobTitle} position. Could you please provide me with more details?`;
+    const whatsappUrl = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   const categories = [
     { id: 'all', name: 'All Categories', icon: Briefcase },
-    { id: 'hospitality', name: 'Hospitality', icon: Users },
-    { id: 'construction', name: 'Construction', icon: Building },
-    { id: 'administration', name: 'Administration', icon: Briefcase },
-    { id: 'sales', name: 'Sales & Marketing', icon: Users },
-    { id: 'security', name: 'Security', icon: Building }
+    { id: 'delivery', name: 'Delivery Services', icon: Users }
   ];
 
   const jobs = [
     {
       id: 1,
-      title: 'Hotel Receptionist',
-      company: 'Luxury Resort Dubai',
-      category: 'hospitality',
-      location: 'Dubai Marina',
-      salary: 'AED 3,500 - 4,500',
+      title: 'BIKE RIDERS/DELIVERY',
+      company: 'Perry Eden Group',
+      category: 'delivery',
+      location: 'Dubai',
+      salary: 'Competitive Package',
       type: 'Full-time',
-      experience: '2-3 years',
-      description: 'Excellent customer service skills, fluent in English and Arabic preferred.',
-      benefits: ['Accommodation', 'Transportation', 'Medical Insurance', 'Annual Leave']
-    },
-    {
-      id: 2,
-      title: 'Construction Supervisor',
-      company: 'BuildTech Emirates',
-      category: 'construction',
-      location: 'Dubai South',
-      salary: 'AED 6,000 - 8,000',
-      type: 'Full-time',
-      experience: '5+ years',
-      description: 'Supervise construction projects, ensure safety protocols, manage teams.',
-      benefits: ['Accommodation', 'Transportation', 'Medical Insurance', 'Bonus']
-    },
-    {
-      id: 3,
-      title: 'Office Administrator',
-      company: 'Business Solutions LLC',
-      category: 'administration',
-      location: 'Business Bay',
-      salary: 'AED 4,000 - 5,500',
-      type: 'Full-time',
-      experience: '2-4 years',
-      description: 'Administrative support, document management, client coordination.',
-      benefits: ['Medical Insurance', 'Annual Leave', 'Performance Bonus']
-    },
-    {
-      id: 4,
-      title: 'Sales Executive',
-      company: 'Emirates Trading',
-      category: 'sales',
-      location: 'Deira',
-      salary: 'AED 4,500 - 7,000',
-      type: 'Full-time',
-      experience: '3+ years',
-      description: 'Drive sales growth, maintain client relationships, achieve targets.',
-      benefits: ['Commission', 'Transportation', 'Medical Insurance', 'Incentives']
-    },
-    {
-      id: 5,
-      title: 'Security Guard',
-      company: 'Safe Guard Services',
-      category: 'security',
-      location: 'DIFC',
-      salary: 'AED 2,800 - 3,500',
-      type: 'Full-time',
-      experience: '1-2 years',
-      description: 'Maintain security of premises, monitor CCTV, patrol duties.',
-      benefits: ['Accommodation', 'Transportation', 'Medical Insurance', 'Uniform']
-    },
-    {
-      id: 6,
-      title: 'Restaurant Manager',
-      company: 'Fine Dining Group',
-      category: 'hospitality',
-      location: 'JBR',
-      salary: 'AED 7,000 - 9,000',
-      type: 'Full-time',
-      experience: '4-6 years',
-      description: 'Manage restaurant operations, staff supervision, customer satisfaction.',
-      benefits: ['Accommodation', 'Transportation', 'Medical Insurance', 'Tips']
+      experience: '1+ years',
+      description: 'Delivery services across Dubai, reliable transportation, customer service oriented.',
+      benefits: ['Transportation', 'Medical Insurance', 'Performance Bonus', 'Fuel Allowance']
     }
   ];
 
@@ -238,9 +135,12 @@ const UAEJobs: React.FC = () => {
                 </div>
                 
                 <div className="mt-4 lg:mt-0 lg:ml-6">
-                  <button className="w-full lg:w-auto bg-yellow-500 text-navy-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-colors duration-200 flex items-center justify-center">
-                    Apply Now
-                    <ArrowRight className="ml-2" size={20} />
+                  <button 
+                    onClick={() => handleWhatsAppInquiry(job.title)}
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-200 flex items-center justify-center"
+                  >
+                    <MessageCircle size={14} className="mr-1" />
+                    WhatsApp
                   </button>
                 </div>
               </div>
@@ -272,188 +172,6 @@ const UAEJobs: React.FC = () => {
                 <div className="text-gray-700">{stat.label}</div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Application Form */}
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-navy-900 mb-6 text-center">Submit Your Application</h3>
-            
-            {/* Success Message */}
-            {submitted && data && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
-                <CheckCircle className="text-green-600 mr-3" size={20} />
-                <span className="text-green-800">Job application submitted successfully! We'll contact you shortly.</span>
-              </div>
-            )}
-
-            {/* Error Message */}
-            {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
-                <AlertCircle className="text-red-600 mr-3" size={20} />
-                <span className="text-red-800">{error}</span>
-              </div>
-            )}
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                  <input
-                    type="text"
-                    name="contactName"
-                    value={formData.contactName}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="Your full name"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                  <input
-                    type="email"
-                    name="contactEmail"
-                    value={formData.contactEmail}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="your@email.com"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                  <input
-                    type="tel"
-                    name="contactPhone"
-                    value={formData.contactPhone}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="+971 55 000 0000"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Industry</label>
-                  <select 
-                    name="industry"
-                    value={formData.industry}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    required
-                  >
-                    <option value="">Select industry</option>
-                    <option value="hospitality">Hospitality</option>
-                    <option value="construction">Construction</option>
-                    <option value="administration">Administration</option>
-                    <option value="sales">Sales & Marketing</option>
-                    <option value="security">Security</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Position of Interest</label>
-                  <input
-                    type="text"
-                    name="jobTitle"
-                    value={formData.jobTitle}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="Job title you're interested in"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
-                  <select 
-                    name="experience"
-                    value={formData.experience}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    required
-                  >
-                    <option value="">Select experience level</option>
-                    <option value="0-1">0-1 years</option>
-                    <option value="2-3">2-3 years</option>
-                    <option value="4-6">4-6 years</option>
-                    <option value="7+">7+ years</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Current Location</label>
-                  <input
-                    type="text"
-                    name="currentLocation"
-                    value={formData.currentLocation}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="Your current location"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Visa Status</label>
-                  <select 
-                    name="visaStatus"
-                    value={formData.visaStatus}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    required
-                  >
-                    <option value="visit">Visit Visa</option>
-                    <option value="residence">Residence Visa</option>
-                    <option value="employment">Employment Visa</option>
-                    <option value="cancelled">Cancelled Visa</option>
-                    <option value="outside_uae">Outside UAE</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Availability</label>
-                <select 
-                  name="availability"
-                  value={formData.availability}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                  required
-                >
-                  <option value="immediate">Immediate</option>
-                  <option value="1_week">Within 1 week</option>
-                  <option value="2_weeks">Within 2 weeks</option>
-                  <option value="1_month">Within 1 month</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-              </div>
-              
-              <div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-yellow-500 text-navy-900 py-4 px-6 rounded-lg font-semibold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="animate-spin mr-2" size={20} />
-                      Submitting...
-                    </>
-                  ) : (
-                    <>
-                      Submit Application
-                      <ArrowRight className="ml-2" size={20} />
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       </div>

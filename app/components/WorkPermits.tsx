@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, DollarSign, Clock, Users, Building, ArrowRight, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { DollarSign, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Loader2, MessageCircle, Phone } from 'lucide-react';
 import { useWorkPermit } from '../../src/hooks/useApi';
 
 const WorkPermits: React.FC = () => {
@@ -47,6 +47,12 @@ const WorkPermits: React.FC = () => {
     }));
   };
 
+  const handleWhatsAppInquiry = (jobTitle: string) => {
+    const message = `Hi, I would like to inquire about the ${jobTitle} position. Could you please provide me with more details about the work permit and job requirements?`;
+    const whatsappUrl = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const countries = [
     {
       id: 'czech',
@@ -54,28 +60,34 @@ const WorkPermits: React.FC = () => {
       flag: '🇨🇿',
       jobs: [
         {
-          title: 'Factory Worker',
-          company: 'Manufacturing Corp',
-          salary: '€1,400/month',
-          location: 'Prague',
-          type: 'Full-time',
-          requirements: 'No experience required, accommodation provided'
-        },
-        {
-          title: 'Warehouse Operator',
-          company: 'Logistics Solutions',
-          salary: '€1,300/month',
-          location: 'Brno',
+          title: 'Warehouse Assistant',
           type: 'Full-time',
           requirements: 'Basic English, transport provided'
         },
         {
-          title: 'Construction Worker',
-          company: 'BuildTech',
-          salary: '€1,600/month',
-          location: 'Ostrava',
+          title: 'Delivery Driver',
           type: 'Full-time',
-          requirements: 'Experience preferred, accommodation available'
+          requirements: 'Valid driving license, GPS navigation skills'
+        },
+        {
+          title: 'Storekeeper',
+          type: 'Full-time',
+          requirements: 'Inventory management, attention to detail'
+        },
+        {
+          title: 'Welder',
+          type: 'Full-time',
+          requirements: 'Welding certification, experience preferred'
+        },
+        {
+          title: 'Loading and Unloading Truck Operator',
+          type: 'Full-time',
+          requirements: 'Physical fitness, forklift license preferred'
+        },
+        {
+          title: 'Cleaner',
+          type: 'Full-time',
+          requirements: 'No experience required, flexible hours'
         }
       ]
     },
@@ -86,25 +98,16 @@ const WorkPermits: React.FC = () => {
       jobs: [
         {
           title: 'Assembly Line Worker',
-          company: 'Auto Parts Ltd',
-          salary: '€1,200/month',
-          location: 'Warsaw',
           type: 'Full-time',
           requirements: 'No experience needed, full training provided'
         },
         {
           title: 'Packaging Specialist',
-          company: 'Food Processing Co',
-          salary: '€1,150/month',
-          location: 'Krakow',
           type: 'Full-time',
           requirements: 'Attention to detail, accommodation provided'
         },
         {
           title: 'Machine Operator',
-          company: 'Industrial Systems',
-          salary: '€1,350/month',
-          location: 'Gdansk',
           type: 'Full-time',
           requirements: 'Technical background preferred'
         }
@@ -117,17 +120,11 @@ const WorkPermits: React.FC = () => {
       jobs: [
         {
           title: 'Production Worker',
-          company: 'Electronics Manufacturing',
-          salary: '€1,100/month',
-          location: 'Bratislava',
           type: 'Full-time',
           requirements: 'Quality control experience preferred'
         },
         {
           title: 'Logistics Assistant',
-          company: 'Distribution Center',
-          salary: '€1,050/month',
-          location: 'Kosice',
           type: 'Full-time',
           requirements: 'Physical fitness required'
         }
@@ -140,17 +137,11 @@ const WorkPermits: React.FC = () => {
       jobs: [
         {
           title: 'Agricultural Worker',
-          company: 'Agro Solutions',
-          salary: '€800/month',
-          location: 'Belgrade',
           type: 'Seasonal',
           requirements: 'Outdoor work, seasonal position'
         },
         {
           title: 'Maintenance Technician',
-          company: 'Industrial Facilities',
-          salary: '€900/month',
-          location: 'Novi Sad',
           type: 'Full-time',
           requirements: 'Technical skills, experience preferred'
         }
@@ -163,17 +154,11 @@ const WorkPermits: React.FC = () => {
       jobs: [
         {
           title: 'IT Support Specialist',
-          company: 'Tech Solutions',
-          salary: '€700/month',
-          location: 'Kyiv',
           type: 'Full-time',
           requirements: 'Computer skills, English required'
         },
         {
           title: 'Customer Service Rep',
-          company: 'Call Center Solutions',
-          salary: '€650/month',
-          location: 'Lviv',
           type: 'Full-time',
           requirements: 'Excellent communication skills'
         }
@@ -228,40 +213,37 @@ const WorkPermits: React.FC = () => {
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <h3 className="text-xl font-bold text-navy-900 mb-1">{job.title}</h3>
-                        <div className="flex items-center text-gray-600 mb-2">
-                          <Building className="mr-2" size={16} />
-                          <span className="text-sm">{job.company}</span>
-                        </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-lg font-bold text-yellow-600">{job.salary}</div>
                         <div className="text-sm text-gray-600">{job.type}</div>
                       </div>
                     </div>
                     
                     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-3">
                       <div className="flex items-center">
-                        <MapPin className="mr-1" size={14} />
-                        {job.location}
-                      </div>
-                      <div className="flex items-center">
                         <Clock className="mr-1" size={14} />
                         {job.requirements}
                       </div>
                     </div>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Work Permit Included</span>
-                      <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Immediate Start</span>
-                      <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">EU Work Rights</span>
-                    </div>
                   </div>
                   
                   <div className="mt-4 lg:mt-0 lg:ml-6">
-                    <button className="w-full lg:w-auto bg-yellow-500 text-navy-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-colors duration-200 flex items-center justify-center">
-                      Apply Now
-                      <ArrowRight className="ml-2" size={20} />
-                    </button>
+                    <div className="flex flex-col gap-2 w-full lg:w-auto">
+                      <button 
+                        onClick={() => handleWhatsAppInquiry(job.title)}
+                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-200 flex items-center justify-center"
+                      >
+                        <MessageCircle size={14} className="mr-1" />
+                        WhatsApp
+                      </button>
+                      <button 
+                        onClick={() => window.open('tel:+97143328700', '_self')}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-200 flex items-center justify-center"
+                      >
+                        <Phone size={14} className="mr-1" />
+                        Call
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

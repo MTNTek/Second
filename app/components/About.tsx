@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Users, Target, Eye, Award, Globe, Clock, ThumbsUp, Building } from 'lucide-react';
 
 const About: React.FC = () => {
@@ -59,9 +60,18 @@ const About: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl lg:text-5xl font-bold text-navy-900 mb-6">
-            About Perry Eden Group
-          </h1>
+          <div className="flex items-center justify-center space-x-4 mb-6">
+            <Image 
+              src="/company_logo_transparent.png" 
+              alt="Perry Eden Group Logo" 
+              width={60}
+              height={60}
+              className="object-contain"
+            />
+            <h1 className="text-4xl lg:text-5xl font-bold text-navy-900">
+              About Perry Eden Group
+            </h1>
+          </div>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             Perry Eden Group of Companies was founded with a mission to simplify travel, visa, and business services 
             for individuals and organizations worldwide. We pride ourselves on delivering quick, reliable, and 

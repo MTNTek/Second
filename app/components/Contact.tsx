@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Phone, Mail, MapPin, MessageCircle, Clock, Send, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { useContactForm } from '@/hooks/useApi';
 
@@ -63,7 +64,7 @@ const Contact: React.FC = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+971 55 253 7882',
+      details: '+971 4 332 8700',
       description: 'Call us for immediate assistance'
     },
     {
@@ -81,7 +82,7 @@ const Contact: React.FC = () => {
     {
       icon: MessageCircle,
       title: 'WhatsApp',
-      details: '+971 55 253 7882',
+      details: '+971 4 332 8700',
       description: 'Chat with us instantly'
     }
   ];
@@ -97,9 +98,18 @@ const Contact: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl lg:text-5xl font-bold text-navy-900 mb-6">
-            Get In Touch
-          </h1>
+          <div className="flex items-center justify-center space-x-4 mb-6">
+            <Image 
+              src="/company_logo_transparent.png" 
+              alt="Perry Eden Group Logo" 
+              width={60}
+              height={60}
+              className="object-contain"
+            />
+            <h1 className="text-4xl lg:text-5xl font-bold text-navy-900">
+              Get In Touch
+            </h1>
+          </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Ready to start your journey? Contact us today and let our experts guide you through every step of the process.
           </p>
@@ -277,7 +287,7 @@ const Contact: React.FC = () => {
               
               <div className="space-y-3">
                 <a
-                  href="tel:+971552537882"
+                  href="tel:+97143328700"
                   className="w-full bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-400 transition-colors duration-200 flex items-center justify-center"
                 >
                   <Phone className="mr-2" size={18} />
@@ -285,7 +295,7 @@ const Contact: React.FC = () => {
                 </a>
                 
                 <a
-                  href="https://wa.me/971552537882"
+                  href="https://wa.me/97143328700"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-500 transition-colors duration-200 flex items-center justify-center"
@@ -332,7 +342,7 @@ const Contact: React.FC = () => {
               <div className="flex flex-col items-center">
                 <Phone className="mb-3 text-yellow-400" size={32} />
                 <h4 className="text-lg font-semibold mb-2">Phone Support</h4>
-                <p className="text-gray-300">+971 55 253 7882</p>
+                <p className="text-gray-300">+971 4 332 8700</p>
                 <p className="text-sm text-gray-400 mt-1">Available during business hours</p>
               </div>
               <div className="flex flex-col items-center">
@@ -344,7 +354,7 @@ const Contact: React.FC = () => {
               <div className="flex flex-col items-center">
                 <MessageCircle className="mb-3 text-yellow-400" size={32} />
                 <h4 className="text-lg font-semibold mb-2">WhatsApp Support</h4>
-                <p className="text-gray-300">+971 55 253 7882</p>
+                <p className="text-gray-300">+971 4 332 8700</p>
                 <p className="text-sm text-gray-400 mt-1">Instant messaging available</p>
               </div>
             </div>

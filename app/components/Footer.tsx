@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Phone, Mail, MapPin, Clock, ArrowRight } from 'lucide-react';
 
 interface FooterProps {
@@ -32,10 +33,14 @@ const Footer: React.FC<FooterProps> = ({ setActiveSection }) => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">PE</span>
-              </div>
+            <div className="flex items-center space-x-1 mb-4">
+              <Image 
+                src="/company_logo_transparent.png" 
+                alt="Perry Eden Group Logo" 
+                width={57}
+                height={57}
+                className="object-contain"
+              />
               <div>
                 <h3 className="text-xl font-bold">Perry Eden Group</h3>
                 <p className="text-sm text-gray-300">Global Services Partner</p>
@@ -48,7 +53,7 @@ const Footer: React.FC<FooterProps> = ({ setActiveSection }) => {
             <div className="space-y-2">
               <div className="flex items-center text-sm">
                 <Phone size={16} className="mr-2 text-yellow-400" />
-                <span>+971 55 253 7882</span>
+                <span>+971 4 332 8700</span>
               </div>
               <div className="flex items-center text-sm">
                 <Mail size={16} className="mr-2 text-yellow-400" />

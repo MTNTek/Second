@@ -1,118 +1,110 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { db } from '../../../src/lib/db';
-import { contactSubmissions } from '../../../src/lib/schema';
-import { monitor } from '../../../src/lib/monitoring';
-import { sslHealthCheck } from '../../../src/lib/ssl-config';
+import { NextRequest, NextResponse } from 'next/server'
+import { checkDatabaseHealth, getDatabaseStats } from '@/lib/db-production'
+
+interface HealthStatus {
+  status: 'healthy' | 'degraded' | 'unhealthy'
+  timestamp: string
+  uptime: number
+  version: string
+  environment: string
+  services: {
+    database: any
+    memory: {
+      used: number
+      total: number
+      percentage: number
+    }
+    disk: {
+      available: boolean
+    }
+  }
+}
+
+function getMemoryUsage() {
+  if (typeof process !== 'undefined' && process.memoryUsage) {
+    const usage = process.memoryUsage()
+    return {
+      used: Math.round(usage.heapUsed / 1024 / 1024), // MB
+      total: Math.round(usage.heapTotal / 1024 / 1024), // MB
+      percentage: Math.round((usage.heapUsed / usage.heapTotal) * 100)
+    }
+  }
+  return { used: 0, total: 0, percentage: 0 }
+}
+
+function getUptimeInSeconds() {
+  if (typeof process !== 'undefined' && process.uptime) {
+    return Math.floor(process.uptime())
+  }
+  return 0
+}
 
 export async function GET(request: NextRequest) {
-  const startTime = Date.now();
-  
   try {
-    // Get health status from monitoring system
-    const healthStatus = await monitor.getHealthStatus();
+    const startTime = Date.now()
     
-    // Test database connection by running a simple query
-    let databaseHealth: { healthy: boolean; latency: number; error: string | null } = { healthy: true, latency: 0, error: null };
-    try {
-      const dbStartTime = Date.now();
-      await db.select().from(contactSubmissions).limit(1);
-      databaseHealth.latency = Date.now() - dbStartTime;
-    } catch (error) {
-      databaseHealth = {
-        healthy: false,
-        latency: 0,
-        error: error instanceof Error ? error.message : 'Database connection failed'
-      };
+    // Check database health
+    const dbHealth = await checkDatabaseHealth()
+    const dbStats = getDatabaseStats()
+    
+    // Get system metrics
+    const memory = getMemoryUsage()
+    const uptime = getUptimeInSeconds()
+    
+    // Determine overall health status
+    let status: 'healthy' | 'degraded' | 'unhealthy' = 'healthy'
+    
+    if (dbHealth.status === 'unhealthy') {
+      status = 'unhealthy'
+    } else if (memory.percentage > 85) {
+      status = 'degraded'
     }
     
-    // Check SSL/HTTPS configuration
-    const sslHealth = await sslHealthCheck();
-    
-    // Calculate overall health score
-    const checks = [
-      healthStatus.status === 'healthy',
-      databaseHealth.healthy,
-      sslHealth.https
-    ];
-    
-    const healthyCount = checks.filter(Boolean).length;
-    const totalChecks = checks.length;
-    const healthScore = Math.round((healthyCount / totalChecks) * 100);
-    
-    const overallStatus = healthScore >= 90 ? 'healthy' : 
-                         healthScore >= 70 ? 'degraded' : 'unhealthy';
-    
-    const responseTime = Date.now() - startTime;
-    
-    const health = {
-      status: overallStatus,
+    const healthStatus: HealthStatus = {
+      status,
       timestamp: new Date().toISOString(),
+      uptime,
+      version: process.env.npm_package_version || '0.1.0',
       environment: process.env.NODE_ENV || 'development',
-      version: '1.0.0',
-      uptime: process.uptime(),
-      responseTime,
-      healthScore,
-      
       services: {
-        api: databaseHealth.healthy ? 'operational' : 'degraded',
-        database: databaseHealth.healthy ? 'operational' : 'offline',
-        authentication: 'operational',
-        monitoring: healthStatus.status,
-        ssl: sslHealth.https ? 'configured' : 'not_configured'
-      },
-      
-      details: {
         database: {
-          status: databaseHealth.healthy ? 'connected' : 'disconnected',
-          latency: databaseHealth.latency,
-          error: databaseHealth.error
+          ...dbHealth,
+          ...dbStats
         },
-        application: {
-          memoryUsage: healthStatus.metrics.memoryUsage,
-          errorRate: healthStatus.metrics.errorRate,
-          avgResponseTime: healthStatus.metrics.avgResponseTime
-        },
-        ssl: {
-          certificate: sslHealth.certificate,
-          hsts: sslHealth.hsts
+        memory,
+        disk: {
+          available: true // In real production, you'd check actual disk space
         }
       }
-    };
-
-    // Log health check
-    monitor.log('INFO', 'Health check completed', {
-      status: overallStatus,
-      healthScore,
-      responseTime
-    });
+    }
     
-    // Record metrics
-    monitor.recordMetric('health_check_duration', responseTime, 'ms');
-    monitor.recordMetric('health_score', healthScore, 'percent');
-
-    return NextResponse.json(health, { 
-      status: overallStatus === 'unhealthy' ? 503 : 200,
+    const responseTime = Date.now() - startTime
+    
+    return NextResponse.json({
+      ...healthStatus,
+      responseTime: `${responseTime}ms`
+    }, {
+      status: status === 'healthy' ? 200 : status === 'degraded' ? 200 : 503,
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate'
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Content-Type': 'application/json'
       }
-    });
-  } catch (error) {
-    console.error('Health check failed:', error);
+    })
     
-    const health = {
+  } catch (error) {
+    console.error('Health check failed:', error)
+    
+    return NextResponse.json({
       status: 'unhealthy',
       timestamp: new Date().toISOString(),
-      database: 'disconnected',
-      environment: process.env.NODE_ENV || 'development',
-      version: '1.0.0',
-      error: error instanceof Error ? error.message : 'Unknown error',
-      services: {
-        api: 'operational',
-        database: 'error',
-        authentication: 'unknown'
+      error: error instanceof Error ? error.message : 'Unknown health check error',
+      environment: process.env.NODE_ENV || 'development'
+    }, {
+      status: 503,
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Content-Type': 'application/json'
       }
-    };
-
-    return NextResponse.json(health, { status: 503 });
+    })
   }
 }
