@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST='{"src\\\\components\\\\WebVitals.tsx -> web-vitals":{"id":6430,"files":["static/chunks/vendors-770415eac124ca14.js"]}}';
