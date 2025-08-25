@@ -7,7 +7,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../src/context/AuthContext';
 
 interface AdminStats {
   totalApplications: number;
@@ -52,7 +51,6 @@ const statusColors = {
 };
 
 export default function AdminDashboard() {
-  const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'applications' | 'users' | 'analytics' | 'settings'>('overview');
   const [applications, setApplications] = useState<Application[]>([]);
   const [users, setUsers] = useState<User[]>([]);
@@ -71,57 +69,110 @@ export default function AdminDashboard() {
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
 
   useEffect(() => {
-    if (user && user.role === 'admin') {
+    // Check if admin is authenticated
+    const adminToken = localStorage.getItem('adminToken');
+    if (adminToken === 'admin-authenticated') {
       fetchAdminData();
+    } else {
+      setLoadingData(false);
     }
-  }, [user]);
+  }, []);
 
   const fetchAdminData = async () => {
     setLoadingData(true);
     setError(null);
 
     try {
-      // Fetch all applications
-      const appsResponse = await fetch('/api/admin/applications', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      // For demo purposes, use mock data with simulated loading
+      await new Promise(resolve => setTimeout(resolve, 800)); // Simulate API delay
+
+      // Mock applications data
+      const mockApplications: Application[] = [
+        {
+          id: '1',
+          userId: 'user1',
+          userName: 'John Smith',
+          userEmail: 'john.smith@email.com',
+          type: 'work_permit',
+          serviceName: 'Poland Work Permit',
+          status: 'pending',
+          amount: 2500,
+          currency: 'AED',
+          createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+          updatedAt: new Date(Date.now() - 86400000 * 1).toISOString(),
         },
-      });
-
-      if (appsResponse.ok) {
-        const appsData = await appsResponse.json();
-        if (appsData.success) {
-          setApplications(appsData.data);
-        }
-      }
-
-      // Fetch users
-      const usersResponse = await fetch('/api/admin/users', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        {
+          id: '2',
+          userId: 'user2',
+          userName: 'Sarah Johnson',
+          userEmail: 'sarah.j@email.com',
+          type: 'visa',
+          serviceName: 'Tourist Visa - UAE',
+          status: 'approved',
+          amount: 850,
+          currency: 'AED',
+          createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
+          updatedAt: new Date(Date.now() - 86400000 * 3).toISOString(),
         },
-      });
-
-      if (usersResponse.ok) {
-        const usersData = await usersResponse.json();
-        if (usersData.success) {
-          setUsers(usersData.data);
-        }
-      }
-
-      // Fetch analytics
-      const analyticsResponse = await fetch('/api/admin/analytics', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        {
+          id: '3',
+          userId: 'user3',
+          userName: 'Ahmed Al-Rashid',
+          userEmail: 'ahmed.rashid@email.com',
+          type: 'business_setup',
+          serviceName: 'Company Registration',
+          status: 'in_progress',
+          amount: 5000,
+          currency: 'AED',
+          createdAt: new Date(Date.now() - 86400000 * 7).toISOString(),
+          updatedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
         },
-      });
+      ];
 
-      if (analyticsResponse.ok) {
-        const analyticsData = await analyticsResponse.json();
-        if (analyticsData.success) {
-          setStats(analyticsData.data);
-        }
-      }
+      // Mock users data
+      const mockUsers: User[] = [
+        {
+          id: 'user1',
+          name: 'John Smith',
+          email: 'john.smith@email.com',
+          role: 'customer',
+          createdAt: new Date(Date.now() - 86400000 * 30).toISOString(),
+          applicationCount: 3,
+        },
+        {
+          id: 'user2',
+          name: 'Sarah Johnson',
+          email: 'sarah.j@email.com',
+          role: 'customer',
+          createdAt: new Date(Date.now() - 86400000 * 45).toISOString(),
+          applicationCount: 1,
+        },
+        {
+          id: 'user3',
+          name: 'Ahmed Al-Rashid',
+          email: 'ahmed.rashid@email.com',
+          role: 'customer',
+          createdAt: new Date(Date.now() - 86400000 * 20).toISOString(),
+          applicationCount: 2,
+        },
+      ];
+
+      // Mock stats data
+      const mockStats: AdminStats = {
+        totalApplications: mockApplications.length,
+        pendingApplications: mockApplications.filter(app => app.status === 'pending').length,
+        approvedApplications: mockApplications.filter(app => app.status === 'approved').length,
+        rejectedApplications: mockApplications.filter(app => app.status === 'rejected').length,
+        totalUsers: mockUsers.length,
+        newUsersThisMonth: 2,
+        totalRevenue: mockApplications.reduce((sum, app) => sum + (app.amount || 0), 0),
+        pendingPayments: 3500,
+      };
+
+      setApplications(mockApplications);
+      setUsers(mockUsers);
+      setStats(mockStats);
+
     } catch (error) {
       console.error('Error fetching admin data:', error);
       setError('Failed to load admin data. Please try again.');
@@ -180,29 +231,25 @@ export default function AdminDashboard() {
     }).format(amount);
   };
 
-  if (loading || loadingData) {
+  if (loadingData) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading admin dashboard...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto mb-3"></div>
+          <p className="text-gray-600">Loading dashboard data...</p>
         </div>
       </div>
     );
   }
 
-  if (!user || user.role !== 'admin') {
+  const isAuthenticated = localStorage.getItem('adminToken') === 'admin-authenticated';
+  
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h2>
-          <p className="text-gray-600 mb-4">You don't have permission to access the admin dashboard.</p>
-          <button
-            onClick={() => window.location.href = '/'}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Go to Home
-          </button>
+          <p className="text-gray-600 mb-4">Please log in to access the admin dashboard.</p>
         </div>
       </div>
     );

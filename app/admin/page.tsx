@@ -3,8 +3,13 @@
  * Perry Eden Group - Professional Services Platform
  */
 
+import AdminAuth from '../components/AdminAuth';
 import AdminDashboard from '../components/AdminDashboard';
 
 export default function AdminPage() {
-  return <AdminDashboard />;
+  return (
+    <AdminAuth>
+      <AdminDashboard />
+    </AdminAuth>
+  );
 }
