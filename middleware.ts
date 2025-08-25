@@ -72,7 +72,8 @@ function validateRequest(req: NextRequest): { isValid: boolean; reason?: string 
   const searchParams = url.searchParams
   
   // Check for malicious patterns in URL parameters
-  for (const [key, value] of searchParams.entries()) {
+  const paramEntries = Array.from(searchParams.entries());
+  for (const [key, value] of paramEntries) {
     if (detectSQLInjection(value)) {
       return { isValid: false, reason: 'SQL injection attempt detected' }
     }
