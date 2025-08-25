@@ -25,5 +25,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "scripts", "New Payment"]
+  "exclude": ["node_modules", "scripts", "New Payment", "src", "vite.config.ts"]
 }

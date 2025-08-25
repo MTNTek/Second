@@ -1,8 +1,8 @@
 {
   "src\\components\\WebVitals.tsx -> web-vitals": {
-    "id": "src\\components\\WebVitals.tsx -> web-vitals",
+    "id": 6430,
     "files": [
-      "static/chunks/_app-pages-browser_node_modules_web-vitals_dist_web-vitals_js.js"
+      "static/chunks/vendors-770415eac124ca14.js"
     ]
   }
 }
