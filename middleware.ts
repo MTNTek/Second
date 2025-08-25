@@ -71,7 +71,7 @@ function validateRequest(req: NextRequest): { isValid: boolean; reason?: string 
   const url = new URL(req.url)
   const searchParams = url.searchParams
   
-  // Check for malicious patterns in URL parameters
+  // Check for malicious patterns in URL parameters (Fixed for Vercel)
   const paramEntries = Array.from(searchParams.entries());
   for (const [key, value] of paramEntries) {
     if (detectSQLInjection(value)) {
