@@ -1,54 +1,17 @@
 import React, { useState } from 'react';
-import { DollarSign, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Loader2, MessageCircle, Phone } from 'lucide-react';
-import { useWorkPermit } from '../../src/hooks/useApi';
+import { DollarSign, Clock, Users, MessageCircle, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const WorkPermits: React.FC = () => {
   const [selectedCountry, setSelectedCountry] = useState('poland');
-  const [formData, setFormData] = useState({
-    contactName: '',
-    contactEmail: '',
-    contactPhone: '',
-    country: 'poland',
-    jobTitle: '',
-    company: '',
-    experience: '',
-    education: ''
-  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 6;
 
-  const { submitApplication, loading, error, data } = useWorkPermit();
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      await submitApplication(formData);
-      setSubmitted(true);
-      // Reset form
-      setFormData({
-        contactName: '',
-        contactEmail: '',
-        contactPhone: '',
-        country: 'poland',
-        jobTitle: '',
-        company: '',
-        experience: '',
-        education: ''
-      });
-    } catch (err) {
-      // Error is handled by the hook
-    }
+  const handleCall = () => {
+    window.location.href = 'tel:+97143328700';
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
-
-  const handleWhatsAppInquiry = (jobTitle: string) => {
-    const message = `Hi, I would like to inquire about the ${jobTitle} position. Could you please provide me with more details about the work permit and job requirements?`;
+  const handleWhatsApp = (service: string) => {
+    const message = `Hi, I would like to inquire about ${service}. Could you please provide me with more details?`;
     const whatsappUrl = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -97,19 +60,84 @@ const WorkPermits: React.FC = () => {
       flag: '🇵🇱',
       jobs: [
         {
-          title: 'Assembly Line Worker',
+          title: 'PLASTERBOARD WORKER',
           type: 'Full-time',
-          requirements: 'No experience needed, full training provided'
+          requirements: 'Construction experience preferred, training provided'
         },
         {
-          title: 'Packaging Specialist',
+          title: 'TILER',
           type: 'Full-time',
-          requirements: 'Attention to detail, accommodation provided'
+          requirements: 'Tiling experience, attention to detail'
         },
         {
-          title: 'Machine Operator',
+          title: 'PAINTER',
           type: 'Full-time',
-          requirements: 'Technical background preferred'
+          requirements: 'Painting skills, quality finish standards'
+        },
+        {
+          title: 'REINFORCER',
+          type: 'Full-time',
+          requirements: 'Steel reinforcement experience, safety certification'
+        },
+        {
+          title: 'BRICKLAYER / CARPENTER',
+          type: 'Full-time',
+          requirements: 'Construction trade skills, tool operation'
+        },
+        {
+          title: 'TELEVISION FACTORY',
+          type: 'Full-time',
+          requirements: 'Electronics assembly, quality control experience'
+        },
+        {
+          title: 'PICKING CHAMPIGNONS',
+          type: 'Full-time',
+          requirements: 'Agricultural work, physical fitness required'
+        },
+        {
+          title: 'SKLEPY COMFORT STORE WAREHOUSE',
+          type: 'Full-time',
+          requirements: 'Warehouse operations, inventory management'
+        },
+        {
+          title: 'POULTRY FARMER',
+          type: 'Full-time',
+          requirements: 'Animal care experience, early morning shifts'
+        },
+        {
+          title: 'FISH PRODUCTION',
+          type: 'Full-time',
+          requirements: 'Food processing, hygiene standards compliance'
+        },
+        {
+          title: 'TIG / MIG / MAG WELDER',
+          type: 'Full-time',
+          requirements: 'Welding certification, technical skills required'
+        },
+        {
+          title: 'PACKAGING OF GAME MEAT',
+          type: 'Full-time',
+          requirements: 'Food handling certification, cold environment work'
+        },
+        {
+          title: 'CITY BUS DRIVER',
+          type: 'Full-time',
+          requirements: 'Professional driving license, clean driving record'
+        },
+        {
+          title: 'PRODUCTION WORKER',
+          type: 'Full-time',
+          requirements: 'Manufacturing experience, shift work availability'
+        },
+        {
+          title: 'WAREHOUSE WORKER',
+          type: 'Full-time',
+          requirements: 'Physical fitness, forklift license preferred'
+        },
+        {
+          title: 'ELECTRICIAN',
+          type: 'Full-time',
+          requirements: 'Electrical certification, safety training required'
         }
       ]
     },
@@ -119,14 +147,44 @@ const WorkPermits: React.FC = () => {
       flag: '🇸🇰',
       jobs: [
         {
-          title: 'Production Worker',
+          title: 'WAREHOUSE WORKER / HANDYMAN',
           type: 'Full-time',
-          requirements: 'Quality control experience preferred'
+          requirements: 'Physical fitness, basic maintenance skills'
         },
         {
-          title: 'Logistics Assistant',
+          title: 'COOK\'S ASSISTANT',
           type: 'Full-time',
-          requirements: 'Physical fitness required'
+          requirements: 'Food preparation experience, hygiene certification'
+        },
+        {
+          title: 'ASSISTANT MECHANIC',
+          type: 'Full-time',
+          requirements: 'Mechanical knowledge, tool operation skills'
+        },
+        {
+          title: 'REPAIRER OF INDUSTRIAL EQUIPMENT',
+          type: 'Full-time',
+          requirements: 'Technical experience, troubleshooting skills'
+        },
+        {
+          title: 'PAINTER',
+          type: 'Full-time',
+          requirements: 'Painting skills, quality finish standards'
+        },
+        {
+          title: 'TILER',
+          type: 'Full-time',
+          requirements: 'Tiling experience, precision work'
+        },
+        {
+          title: 'ELECTRICIAN',
+          type: 'Full-time',
+          requirements: 'Electrical certification, safety training required'
+        },
+        {
+          title: 'WELDER',
+          type: 'Full-time',
+          requirements: 'Welding certification, metal fabrication experience'
         }
       ]
     },
@@ -136,14 +194,49 @@ const WorkPermits: React.FC = () => {
       flag: '🇷🇸',
       jobs: [
         {
-          title: 'Agricultural Worker',
-          type: 'Seasonal',
-          requirements: 'Outdoor work, seasonal position'
+          title: 'Warehouse Worker',
+          type: 'Full-time',
+          requirements: 'Physical fitness, inventory management skills'
         },
         {
-          title: 'Maintenance Technician',
+          title: 'Construction Roles',
           type: 'Full-time',
-          requirements: 'Technical skills, experience preferred'
+          requirements: 'Construction experience, safety certification'
+        },
+        {
+          title: 'Factory Cleaner',
+          type: 'Full-time',
+          requirements: 'Cleaning experience, attention to detail'
+        },
+        {
+          title: 'Production Line Assistant',
+          type: 'Full-time',
+          requirements: 'Manufacturing experience, teamwork skills'
+        },
+        {
+          title: 'Kitchen Helper / Dishwasher',
+          type: 'Full-time',
+          requirements: 'Food service experience, hygiene standards'
+        },
+        {
+          title: 'Mason',
+          type: 'Full-time',
+          requirements: 'Masonry skills, construction experience'
+        },
+        {
+          title: 'Tiler',
+          type: 'Full-time',
+          requirements: 'Tiling experience, precision work'
+        },
+        {
+          title: 'Electrician',
+          type: 'Full-time',
+          requirements: 'Electrical certification, safety training required'
+        },
+        {
+          title: 'Plumber',
+          type: 'Full-time',
+          requirements: 'Plumbing certification, pipe fitting experience'
         }
       ]
     },
@@ -153,20 +246,57 @@ const WorkPermits: React.FC = () => {
       flag: '🇺🇦',
       jobs: [
         {
-          title: 'IT Support Specialist',
+          title: 'ELECTRICIAN',
           type: 'Full-time',
-          requirements: 'Computer skills, English required'
+          requirements: 'Electrical certification, safety training required'
         },
         {
-          title: 'Customer Service Rep',
+          title: 'WELDER FOR PRODUCTION',
           type: 'Full-time',
-          requirements: 'Excellent communication skills'
+          requirements: 'Production welding experience, quality standards'
+        },
+        {
+          title: 'WORKERS FOR A FURNITURE FACTORY',
+          type: 'Full-time',
+          requirements: 'Manufacturing experience, woodworking skills'
+        },
+        {
+          title: 'WORKERS FOR OIL PRODUCTION',
+          type: 'Full-time',
+          requirements: 'Industrial experience, safety certification'
+        },
+        {
+          title: 'BUILDERS',
+          type: 'Full-time',
+          requirements: 'Construction experience, physical fitness'
+        },
+        {
+          title: 'TOWER CRANE OPERATOR',
+          type: 'Full-time',
+          requirements: 'Crane operation license, height safety certification'
         }
       ]
     }
   ];
 
   const currentCountry = countries.find(c => c.id === selectedCountry);
+  
+  // Pagination logic
+  const totalJobs = currentCountry?.jobs.length || 0;
+  const totalPages = Math.ceil(totalJobs / jobsPerPage);
+  const startIndex = (currentPage - 1) * jobsPerPage;
+  const endIndex = startIndex + jobsPerPage;
+  const currentJobs = currentCountry?.jobs.slice(startIndex, endIndex) || [];
+
+  // Reset to page 1 when country changes
+  const handleCountryChange = (countryId: string) => {
+    setSelectedCountry(countryId);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -186,7 +316,7 @@ const WorkPermits: React.FC = () => {
           {countries.map((country) => (
             <button
               key={country.id}
-              onClick={() => setSelectedCountry(country.id)}
+              onClick={() => handleCountryChange(country.id)}
               className={`flex items-center space-x-2 px-6 py-3 m-2 rounded-lg font-semibold transition-all duration-200 ${
                 selectedCountry === country.id
                   ? 'bg-yellow-500 text-navy-900 shadow-lg'
@@ -206,7 +336,7 @@ const WorkPermits: React.FC = () => {
           </h2>
           
           <div className="grid gap-6">
-            {currentCountry?.jobs.map((job, index) => (
+            {currentJobs.map((job, index) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="flex flex-col lg:flex-row lg:items-start justify-between">
                   <div className="flex-1">
@@ -230,7 +360,7 @@ const WorkPermits: React.FC = () => {
                   <div className="mt-4 lg:mt-0 lg:ml-6">
                     <div className="flex flex-col gap-2 w-full lg:w-auto">
                       <button 
-                        onClick={() => handleWhatsAppInquiry(job.title)}
+                        onClick={() => handleWhatsApp(`Work Permit for ${job.title} in ${currentCountry?.name}`)}
                         className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-200 flex items-center justify-center"
                       >
                         <MessageCircle size={14} className="mr-1" />
@@ -248,6 +378,58 @@ const WorkPermits: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center mt-8 space-x-4">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                  currentPage === 1
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-white text-navy-900 hover:bg-gray-100 shadow-sm'
+                }`}
+              >
+                <ChevronLeft size={16} className="mr-1" />
+                Previous
+              </button>
+
+              <div className="flex space-x-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`w-10 h-10 rounded-lg font-medium transition-colors duration-200 ${
+                      currentPage === page
+                        ? 'bg-yellow-500 text-navy-900'
+                        : 'bg-white text-navy-900 hover:bg-gray-100'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                  currentPage === totalPages
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-white text-navy-900 hover:bg-gray-100 shadow-sm'
+                }`}
+              >
+                Next
+                <ChevronRight size={16} className="ml-1" />
+              </button>
+            </div>
+          )}
+
+          {/* Job Count Display */}
+          <div className="text-center mt-4 text-gray-600">
+            Showing {startIndex + 1}-{Math.min(endIndex, totalJobs)} of {totalJobs} positions
           </div>
         </div>
 
@@ -303,153 +485,25 @@ const WorkPermits: React.FC = () => {
           </div>
         </div>
 
-        {/* Application Form */}
-        <div className="mt-20 max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-navy-900 mb-6 text-center">Express Your Interest</h3>
-            
-            {/* Success Message */}
-            {submitted && data && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
-                <CheckCircle className="text-green-600 mr-3" size={20} />
-                <span className="text-green-800">Work permit application submitted successfully! We'll contact you shortly.</span>
-              </div>
-            )}
-
-            {/* Error Message */}
-            {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
-                <AlertCircle className="text-red-600 mr-3" size={20} />
-                <span className="text-red-800">{error}</span>
-              </div>
-            )}
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                  <input
-                    type="text"
-                    name="contactName"
-                    value={formData.contactName}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="Your full name"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                  <input
-                    type="email"
-                    name="contactEmail"
-                    value={formData.contactEmail}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="your@email.com"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                  <input
-                    type="tel"
-                    name="contactPhone"
-                    value={formData.contactPhone}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="+971 55 000 0000"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Country</label>
-                  <select 
-                    name="country"
-                    value={formData.country}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                  >
-                    {countries.map((country) => (
-                      <option key={country.id} value={country.id}>{country.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Desired Job Title</label>
-                  <input
-                    type="text"
-                    name="jobTitle"
-                    value={formData.jobTitle}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="e.g. Factory Worker, Construction Worker"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Company (Optional)</label>
-                  <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    placeholder="Company name or 'Any'"
-                  />
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Work Experience</label>
-                <textarea
-                  name="experience"
-                  value={formData.experience}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                  placeholder="Brief description of your work experience and skills"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Education Background</label>
-                <textarea
-                  name="education"
-                  value={formData.education}
-                  onChange={handleChange}
-                  rows={3}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                  placeholder="Your educational qualifications and certifications"
-                />
-              </div>
-              
-              <div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-yellow-500 text-navy-900 py-4 px-6 rounded-lg font-semibold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="animate-spin mr-2" size={20} />
-                      Submitting...
-                    </>
-                  ) : (
-                    <>
-                      Submit Application
-                      <ArrowRight className="ml-2" size={20} />
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
+        {/* Contact CTA */}
+        <div className="mt-20 bg-navy-900 rounded-2xl p-8 text-center">
+          <h3 className="text-2xl font-bold text-white mb-4">Ready to Apply for Your Visa?</h3>
+          <p className="text-gray-300 mb-6">Contact our visa experts for personalized assistance</p>
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={() => handleWhatsApp('Work Permit Services')}
+              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            >
+              <MessageCircle size={20} />
+              WhatsApp Us
+            </button>
+            <button
+              onClick={handleCall}
+              className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-navy-900 px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            >
+              <Phone size={20} />
+              Call Now
+            </button>
           </div>
         </div>
       </div>

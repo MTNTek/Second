@@ -1,64 +1,41 @@
-import React, { useState } from 'react';
-import { CheckCircle, MessageCircle, Phone } from 'lucide-react';
+import React from 'react';
+import { MessageCircle, Phone } from 'lucide-react';
 
 const VisaServices: React.FC = () => {
-  const [selectedVisa, setSelectedVisa] = useState('dubai-30');
-
-  const handleWhatsAppInquiry = (visaType: string) => {
-    const message = `Hi, I would like to inquire about the ${visaType} service. Could you please provide me with pricing and more details?`;
-    const whatsappUrl = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+  const handleWhatsApp = (service: string) => {
+    const message = `Hello, I'm interested in ${service}. Could you please provide more information?`;
+    const whatsappURL = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
   };
 
-  const handleLiveChatInquiry = () => {
-    // Make a phone call to the specified number
-    window.location.href = 'tel:+97143328700';
+  const handleCall = () => {
+    window.open('tel:+97143328700', '_self');
   };
 
-  const visaOptions = [
+  const visaServices = [
     {
-      id: 'dubai-30',
-      title: 'Dubai Visit Visa - 30 Days',
-      features: [
-        'Single Entry',
-        '30 Days Stay',
-        'Tourist/Business Purpose',
-        'Hotel Booking Required',
-        'Flight Ticket Required'
-      ]
+      id: 1,
+      title: 'Dubai 30-Day Visa',
+      description: 'Single entry tourist visa valid for 30 days',
+      features: ['Single Entry', '30 Days Stay', 'Tourist Purpose', 'Quick Processing']
     },
     {
-      id: 'dubai-60',
-      title: 'Dubai Visit Visa - 60 Days',
-      features: [
-        'Single Entry',
-        '60 Days Stay',
-        'Tourist/Business Purpose',
-        'Hotel Booking Required',
-        'Flight Ticket Required'
-      ]
+      id: 2,
+      title: 'Dubai 60-Day Visa',
+      description: 'Multiple entry tourist visa valid for 60 days',
+      features: ['Multiple Entry', '60 Days Stay', 'Extended Tourism', 'Flexible Travel']
     },
     {
-      id: 'visa-change',
-      title: 'Visa Change A2A',
-      features: [
-        'Change Visit to Tourist',
-        'Extend Stay Without Exit',
-        'No Exit Required',
-        'Emirates ID Collection',
-        'Medical Test Included'
-      ]
+      id: 3,
+      title: 'Visa Change Service',
+      description: 'Change your current visa status in UAE',
+      features: ['Status Change', 'Legal Process', 'Documentation Support', 'Government Liaison']
     },
     {
-      id: 'global-visa',
-      title: 'Global Visa Assistance',
-      features: [
-        'Multiple Countries',
-        'Tourist/Business Visa',
-        'Document Preparation',
-        'Application Support',
-        'Status Tracking'
-      ]
+      id: 4,
+      title: 'Global Visa Services',
+      description: 'Visa services for multiple countries worldwide',
+      features: ['Multiple Countries', 'Expert Guidance', 'Document Preparation', 'Application Support']
     }
   ];
 
@@ -68,52 +45,24 @@ const VisaServices: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl lg:text-5xl font-bold text-navy-900 mb-6">
-            Hassle-Free Visa Processing
+            Visa Services
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our visa experts make your application process smooth and fast. From Dubai visit visas to global assistance, we've got you covered.
+            Professional visa services for UAE and international destinations. Contact us for personalized assistance with your visa requirements.
           </p>
         </div>
 
-        {/* Visa Options */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {visaOptions.map((visa) => (
-            <div
-              key={visa.id}
-              className={`bg-white rounded-2xl p-6 shadow-lg cursor-pointer transition-all duration-300 ${
-                selectedVisa === visa.id
-                  ? 'ring-4 ring-yellow-500 shadow-xl'
-                  : 'hover:shadow-xl'
-              }`}
-              onClick={() => setSelectedVisa(visa.id)}
-            >
-              <div className="text-center mb-6">
-                <h3 className="text-lg font-bold text-navy-900 mb-2">{visa.title}</h3>
-                <div className="flex flex-col gap-2 mb-2 items-center">
-                                    <button
-                    onClick={() => handleWhatsAppInquiry(visa.title)}
-                    className="bg-green-500 hover:bg-green-600 text-white px-1.5 py-1 rounded text-xs font-medium transition-colors duration-200 inline-flex items-center justify-center w-20"
-                  >
-                    <MessageCircle className="mr-0.5" size={10} />
-                    WhatsApp
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLiveChatInquiry();
-                    }}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-1.5 py-1 rounded text-xs font-medium transition-colors duration-200 inline-flex items-center justify-center w-20"
-                  >
-                    <Phone size={10} className="mr-0.5" />
-                    Call
-                  </button>
-                </div>
-              </div>
+        {/* Visa Services Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
+          {visaServices.map((service) => (
+            <div key={service.id} className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+              <h3 className="text-2xl font-bold text-navy-900 mb-4">{service.title}</h3>
+              <p className="text-gray-600 mb-6">{service.description}</p>
               
-              <ul className="space-y-2">
-                {visa.features.map((feature, index) => (
-                  <li key={index} className="flex items-start text-sm text-gray-700">
-                    <CheckCircle className="text-green-500 mr-2 mt-0.5 flex-shrink-0" size={16} />
+              <ul className="space-y-2 mb-8">
+                {service.features.map((feature, index) => (
+                  <li key={index} className="flex items-center text-gray-700">
+                    <span className="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
                     {feature}
                   </li>
                 ))}
@@ -124,13 +73,13 @@ const VisaServices: React.FC = () => {
 
         {/* Process Steps */}
         <div className="mt-20">
-          <h3 className="text-3xl font-bold text-center text-navy-900 mb-12">Simple Application Process</h3>
+          <h3 className="text-3xl font-bold text-center text-navy-900 mb-12">Our Visa Process</h3>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { step: '1', title: 'Submit Application', desc: 'Fill out the form and upload required documents' },
-              { step: '2', title: 'Document Review', desc: 'Our team reviews your application and documents' },
-              { step: '3', title: 'Processing', desc: 'We submit your application to relevant authorities' },
-              { step: '4', title: 'Visa Ready', desc: 'Receive your approved visa via email' }
+              { step: '1', title: 'Consultation', desc: 'Contact us via WhatsApp or phone for initial consultation' },
+              { step: '2', title: 'Documentation', desc: 'We guide you through required documents and preparation' },
+              { step: '3', title: 'Application', desc: 'We handle the complete visa application process' },
+              { step: '4', title: 'Delivery', desc: 'Receive your approved visa through secure delivery' }
             ].map((item, index) => (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 bg-yellow-500 text-navy-900 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
@@ -140,6 +89,28 @@ const VisaServices: React.FC = () => {
                 <p className="text-gray-600 text-sm">{item.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Contact CTA */}
+        <div className="mt-20 bg-navy-900 rounded-2xl p-8 text-center">
+          <h3 className="text-2xl font-bold text-white mb-4">Ready to Apply for Your Visa?</h3>
+          <p className="text-gray-300 mb-6">Contact our visa experts for personalized assistance</p>
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={() => handleWhatsApp('Visa Services')}
+              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            >
+              <MessageCircle size={20} />
+              WhatsApp Us
+            </button>
+            <button
+              onClick={handleCall}
+              className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-navy-900 px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            >
+              <Phone size={20} />
+              Call Now
+            </button>
           </div>
         </div>
       </div>

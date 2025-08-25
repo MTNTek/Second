@@ -1,305 +1,471 @@
 import React, { useState } from 'react';
-import { CreditCard, DollarSign, Euro, Banknote, Shield, Clock, CheckCircle, ArrowRight } from 'lucide-react';
+import { Shield, CheckCircle, CreditCard, Lock } from 'lucide-react';
 
 const Payments: React.FC = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState('aed');
-  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [selectedMethod, setSelectedMethod] = useState('');
 
-  const currencies = [
-    { id: 'aed', name: 'UAE Dirham', symbol: 'AED', flag: '🇦🇪', icon: Banknote },
-    { id: 'usd', name: 'US Dollar', symbol: 'USD', flag: '🇺🇸', icon: DollarSign },
-    { id: 'eur', name: 'Euro', symbol: 'EUR', flag: '🇪🇺', icon: Euro }
+  const paymentMethods = [
+    {
+      id: 'visa',
+      name: 'Visa',
+      logo: '/Visa.png',
+      description: 'Credit & Debit Cards',
+      processing: '3D Secure authentication',
+      security: 'Worldwide acceptance'
+    },
+    {
+      id: 'visa-master',
+      name: 'Visa & Mastercard',
+      logo: '/visa and Master .png',
+      description: 'Major credit cards',
+      processing: 'Real-time processing',
+      security: 'Advanced fraud protection'
+    }
   ];
 
-  const paymentMethods = {
-    aed: [
-      { id: 'payfast', name: 'PayTabs', desc: 'Secure local payment gateway', fee: '2.9%' },
-      { id: 'network', name: 'Network International', desc: 'UAE bank transfers', fee: '2.5%' },
-      { id: 'cash', name: 'Cash Payment', desc: 'Pay at our office', fee: 'Free' }
-    ],
-    usd: [
-      { id: 'stripe', name: 'Stripe', desc: 'International credit cards', fee: '2.9% + $0.30' },
-      { id: 'paypal', name: 'PayPal', desc: 'Secure global payments', fee: '3.49%' },
-      { id: 'wise', name: 'Wise Transfer', desc: 'Bank transfers worldwide', fee: '0.5-2%' }
-    ],
-    eur: [
-      { id: 'stripe-eur', name: 'Stripe', desc: 'European credit cards', fee: '2.9% + €0.25' },
-      { id: 'sepa', name: 'SEPA Transfer', desc: 'European bank transfers', fee: '1%' },
-      { id: 'paypal-eur', name: 'PayPal', desc: 'Secure European payments', fee: '3.49%' }
-    ]
+  const handleMethodSelect = (methodId: string) => {
+    setSelectedMethod(methodId);
   };
 
-  const currentCurrency = currencies.find(c => c.id === selectedCurrency);
-  const currentMethods = paymentMethods[selectedCurrency as keyof typeof paymentMethods];
-
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl lg:text-5xl font-bold text-navy-900 mb-6">
-            Secure Online Payments
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Pay safely in Euro (EUR), US Dollar (USD), or UAE Dirham (AED) using trusted payment gateways. Your security is our priority.
-          </p>
+    <div className="payment-methods-container">
+      {/* Security Badge */}
+      <div className="security-badge">
+        <Shield className="shield-icon" size={32} />
+        <div className="security-text">
+          <h3>256-bit SSL Encryption</h3>
+          <p>Your payments are fully secured</p>
         </div>
+        <Lock className="lock-icon" size={32} />
+      </div>
 
-        {/* Currency Selection */}
-        <div className="flex justify-center mb-12">
-          <div className="flex space-x-4">
-            {currencies.map((currency) => (
-              <button
-                key={currency.id}
-                onClick={() => setSelectedCurrency(currency.id)}
-                className={`flex items-center space-x-3 px-6 py-4 rounded-xl font-semibold transition-all duration-200 ${
-                  selectedCurrency === currency.id
-                    ? 'bg-yellow-500 text-navy-900 shadow-xl'
-                    : 'bg-white text-gray-700 hover:bg-gray-50 shadow-lg'
-                }`}
-              >
-                <span className="text-2xl">{currency.flag}</span>
-                <div>
-                  <currency.icon size={20} />
+      {/* Header */}
+      <div className="header-section">
+        <h1>Secure Payment Options</h1>
+        <p>Choose from multiple trusted payment methods with secure SSL encryption and fraud protection for all transactions.</p>
+      </div>
+
+      {/* Payment Methods Grid */}
+      <div className="payment-methods-grid">
+        {paymentMethods.map((method) => (
+          <div
+            key={method.id}
+            className={`payment-method-card ${selectedMethod === method.id ? 'selected' : ''}`}
+            onClick={() => handleMethodSelect(method.id)}
+          >
+            <div className="payment-logo-container">
+              <img
+                src={method.logo}
+                alt={`${method.name} logo`}
+                className="payment-logo"
+                onError={(e) => {
+                  // Hide image and show fallback if image fails to load
+                  e.currentTarget.style.display = 'none';
+                  const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              />
+              <div className="fallback-container" style={{ display: 'none' }}>
+                {method.id === 'visa' ? (
+                  <div className="fallback-logo visa-fallback">VISA</div>
+                ) : method.id === 'visa-master' ? (
+                  <div className="fallback-logos">
+                    <div className="fallback-logo visa-fallback">VISA</div>
+                    <div className="fallback-logo master-fallback">MC</div>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+            <div className="payment-info">
+              <h3>{method.name}</h3>
+              <p className="payment-description">{method.description}</p>
+              <div className="payment-features">
+                <div className="feature">
+                  <CheckCircle size={16} />
+                  <span>{method.processing}</span>
                 </div>
-                <div className="text-left">
-                  <div className="font-bold">{currency.symbol}</div>
-                  <div className="text-sm">{currency.name}</div>
+                <div className="feature">
+                  <CheckCircle size={16} />
+                  <span>{method.security}</span>
                 </div>
+              </div>
+              <button className={`select-button ${selectedMethod === method.id ? 'selected' : ''}`}>
+                {selectedMethod === method.id ? 'Selected' : 'Select Method'}
               </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Payment Form */}
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Payment Methods */}
-            <div className="lg:col-span-1">
-              <h3 className="text-xl font-bold text-navy-900 mb-4">
-                Payment Methods ({currentCurrency?.symbol})
-              </h3>
-              <div className="space-y-3">
-                {currentMethods.map((method) => (
-                  <button
-                    key={method.id}
-                    onClick={() => setPaymentMethod(method.id)}
-                    className={`w-full p-4 rounded-lg text-left transition-all duration-200 ${
-                      paymentMethod === method.id
-                        ? 'bg-yellow-500 text-navy-900'
-                        : 'bg-white text-gray-700 hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className="font-semibold">{method.name}</div>
-                    <div className="text-sm opacity-80">{method.desc}</div>
-                    <div className="text-sm font-medium mt-1">Fee: {method.fee}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Payment Form */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <div className="flex items-center mb-6">
-                  <CreditCard className="mr-3 text-yellow-500" size={28} />
-                  <h3 className="text-2xl font-bold text-navy-900">Payment Details</h3>
-                </div>
-
-                <form className="space-y-6">
-                  {/* Service Selection */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Service</label>
-                    <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
-                      <option value="">Select service</option>
-                      <option value="visa">Visa Services</option>
-                      <option value="travel">Travel Booking</option>
-                      <option value="work-permit">Work Permit</option>
-                      <option value="document">Document Services</option>
-                      <option value="other">Other Services</option>
-                    </select>
-                  </div>
-
-                  {/* Amount */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Amount</label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-500">{currentCurrency?.symbol}</span>
-                      </div>
-                      <input
-                        type="number"
-                        className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                        placeholder="0.00"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Personal Information */}
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                      <input
-                        type="text"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                        placeholder="John"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                      <input
-                        type="text"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                        placeholder="Doe"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input
-                      type="email"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="your@email.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                    <input
-                      type="tel"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="+971 55 000 0000"
-                    />
-                  </div>
-
-                  {/* Payment Information (for card payments) */}
-                  {(paymentMethod === 'card' || paymentMethod.includes('stripe') || paymentMethod.includes('paypal')) && (
-                    <>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Card Number</label>
-                        <input
-                          type="text"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                          placeholder="1234 5678 9012 3456"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
-                          <input
-                            type="text"
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                            placeholder="MM/YY"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">CVV</label>
-                          <input
-                            type="text"
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                            placeholder="123"
-                          />
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  {/* Description */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Payment Description</label>
-                    <textarea
-                      rows={3}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="Brief description of the service or reference number"
-                    ></textarea>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-yellow-500 text-navy-900 py-4 px-6 rounded-lg font-semibold hover:bg-yellow-400 transition-colors duration-200 flex items-center justify-center"
-                  >
-                    Process Payment
-                    <ArrowRight className="ml-2" size={20} />
-                  </button>
-                </form>
-              </div>
             </div>
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Security Features */}
-        <div className="mt-20">
-          <h3 className="text-3xl font-bold text-center text-navy-900 mb-12">Secure Payment Features</h3>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Shield,
-                title: 'SSL Encryption',
-                description: 'All transactions are protected with 256-bit SSL encryption for maximum security.'
-              },
-              {
-                icon: CheckCircle,
-                title: 'PCI Compliant',
-                description: 'Our payment systems meet the highest industry security standards (PCI DSS).'
-              },
-              {
-                icon: Clock,
-                title: 'Instant Processing',
-                description: 'Most payments are processed instantly with immediate confirmation.'
-              }
-            ].map((feature, index) => (
-              <div key={index} className="bg-white p-8 rounded-xl shadow-lg text-center">
-                <feature.icon className="mx-auto mb-4 text-yellow-500" size={48} />
-                <h4 className="text-xl font-bold text-navy-900 mb-3">{feature.title}</h4>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Payment Methods Info */}
-        <div className="mt-20">
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-3xl font-bold text-center text-navy-900 mb-8">Supported Payment Methods</h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="text-4xl mb-4">🇦🇪</div>
-                <h4 className="text-xl font-bold text-navy-900 mb-3">UAE Dirham (AED)</h4>
-                <ul className="text-gray-600 text-sm space-y-1">
-                  <li>• PayTabs Gateway</li>
-                  <li>• Network International</li>
-                  <li>• Local Bank Transfers</li>
-                  <li>• Cash Payment at Office</li>
-                </ul>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-4xl mb-4">🇺🇸</div>
-                <h4 className="text-xl font-bold text-navy-900 mb-3">US Dollar (USD)</h4>
-                <ul className="text-gray-600 text-sm space-y-1">
-                  <li>• Stripe Payment Gateway</li>
-                  <li>• PayPal</li>
-                  <li>• International Wire Transfer</li>
-                  <li>• Wise Money Transfer</li>
-                </ul>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-4xl mb-4">🇪🇺</div>
-                <h4 className="text-xl font-bold text-navy-900 mb-3">Euro (EUR)</h4>
-                <ul className="text-gray-600 text-sm space-y-1">
-                  <li>• Stripe European Gateway</li>
-                  <li>• SEPA Bank Transfers</li>
-                  <li>• PayPal Europe</li>
-                  <li>• European Credit Cards</li>
-                </ul>
-              </div>
+      {/* Security Features */}
+      <div className="security-features">
+        <h2>Why Choose Our Payment System</h2>
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon ssl">
+              <Shield size={32} />
             </div>
+            <h4>SSL Encrypted</h4>
+            <p>256-bit SSL encryption protects all transactions and personal data</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon pci">
+              <CreditCard size={32} />
+            </div>
+            <h4>PCI Compliant</h4>
+            <p>Payment Card Industry compliant processing ensures highest security</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon instant">
+              <CheckCircle size={32} />
+            </div>
+            <h4>Instant Processing</h4>
+            <p>Real-time payment processing with immediate confirmation</p>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .payment-methods-container {
+          min-height: 100vh;
+          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          padding: 2rem;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .security-badge {
+          max-width: 600px;
+          margin: 0 auto 3rem;
+          background: white;
+          border-radius: 16px;
+          padding: 1.5rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          border: 2px solid #10b981;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        }
+
+        .shield-icon, .lock-icon {
+          color: #10b981;
+        }
+
+        .security-text h3 {
+          margin: 0;
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #1f2937;
+        }
+
+        .security-text p {
+          margin: 0;
+          font-size: 0.875rem;
+          color: #6b7280;
+        }
+
+        .header-section {
+          text-align: center;
+          margin-bottom: 3rem;
+          max-width: 800px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .header-section h1 {
+          font-size: 3rem;
+          font-weight: 800;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 1rem;
+        }
+
+        .header-section p {
+          font-size: 1.25rem;
+          color: #6b7280;
+          line-height: 1.6;
+        }
+
+        .payment-methods-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 2rem;
+          max-width: 1200px;
+          margin: 0 auto 4rem;
+        }
+
+        .payment-method-card {
+          background: white;
+          border-radius: 20px;
+          padding: 1.5rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          cursor: pointer;
+          border: 3px solid transparent;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .payment-method-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #667eea, #764ba2);
+          transform: scaleX(0);
+          transition: transform 0.3s ease;
+        }
+
+        .payment-method-card:hover::before {
+          transform: scaleX(1);
+        }
+
+        .payment-method-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .payment-method-card.selected {
+          border-color: #10b981;
+          transform: translateY(-5px);
+          box-shadow: 0 15px 35px rgba(16, 185, 129, 0.2);
+        }
+
+        .payment-logo-container {
+          text-align: center;
+          margin-bottom: 1.5rem;
+          height: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+          border-radius: 12px;
+          padding: 0.5rem;
+        }
+
+        .payment-logo {
+          max-width: 120px;
+          max-height: 60px;
+          object-fit: contain;
+          transition: transform 0.3s ease;
+          /* Clean display for actual logo images */
+        }
+
+        .fallback-container {
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+        }
+
+        /* Fallback logo styling */
+        .fallback-logo {
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          font-weight: bold;
+          font-size: 1rem;
+          color: white;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .visa-fallback {
+          background: linear-gradient(135deg, #1a365d, #2b77cb);
+        }
+
+        .master-fallback {
+          background: linear-gradient(135deg, #eb1c26, #f79e1b);
+        }
+
+        .fallback-logos {
+          display: flex;
+          gap: 0.75rem;
+          align-items: center;
+        }
+
+        /* Fallback styling for missing images */
+        .payment-logo-container {
+          text-align: center;
+          margin-bottom: 1.5rem;
+          height: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+          border-radius: 12px;
+          padding: 1rem;
+          position: relative;
+        }
+
+        /* Fallback text when image fails to load */
+        .payment-logo-container::after {
+          content: attr(data-fallback);
+          position: absolute;
+          font-weight: bold;
+          color: #374151;
+          font-size: 0.875rem;
+          display: none;
+        }
+
+        .payment-logo:not([src]) + *::after,
+        .payment-logo[src=""] + *::after {
+          display: block;
+        }
+
+        .payment-method-card:hover .payment-logo {
+          transform: scale(1.1);
+        }
+
+        .payment-info h3 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+          text-align: center;
+        }
+
+        .payment-description {
+          color: #6b7280;
+          text-align: center;
+          margin-bottom: 1.5rem;
+          font-size: 1rem;
+        }
+
+        .payment-features {
+          margin-bottom: 2rem;
+        }
+
+        .feature {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.75rem;
+          color: #374151;
+          font-size: 0.875rem;
+        }
+
+        .feature svg {
+          color: #10b981;
+          flex-shrink: 0;
+        }
+
+        .select-button {
+          width: 100%;
+          padding: 0.875rem 1.5rem;
+          border-radius: 12px;
+          font-weight: 600;
+          font-size: 1rem;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+        }
+
+        .select-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .select-button.selected {
+          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .security-features {
+          max-width: 1000px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .security-features h2 {
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 3rem;
+        }
+
+        .features-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+        }
+
+        .feature-card {
+          background: white;
+          border-radius: 16px;
+          padding: 2rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .feature-icon {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1.5rem;
+        }
+
+        .feature-icon.ssl {
+          background: linear-gradient(135deg, #10b981, #059669);
+          color: white;
+        }
+
+        .feature-icon.pci {
+          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          color: white;
+        }
+
+        .feature-icon.instant {
+          background: linear-gradient(135deg, #f59e0b, #d97706);
+          color: white;
+        }
+
+        .feature-card h4 {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+          color: #6b7280;
+          line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+          .payment-methods-container {
+            padding: 1rem;
+          }
+
+          .header-section h1 {
+            font-size: 2rem;
+          }
+
+          .payment-methods-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+
+          .security-features h2 {
+            font-size: 2rem;
+          }
+
+          .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+        }
+      `}</style>
     </div>
   );
 };

@@ -1,57 +1,13 @@
 import React, { useState } from 'react';
-import { FileText, Stamp, Award, Car, CreditCard, Building, ArrowRight, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { useDocumentService } from '../../src/hooks/useApi';
+import { FileText, Stamp, Award, Car, CreditCard, Building, CheckCircle, MessageCircle } from 'lucide-react';
 
 const DocumentServices: React.FC = () => {
   const [selectedService, setSelectedService] = useState('translation');
-  const [formData, setFormData] = useState({
-    contactName: '',
-    contactEmail: '',
-    contactPhone: '',
-    serviceType: 'translation',
-    documentType: '',
-    language: '',
-    urgency: 'standard',
-    quantity: 1,
-    specialInstructions: ''
-  });
 
-  const { submitRequest, loading, error, data } = useDocumentService();
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      const requestData = {
-        ...formData,
-        serviceType: selectedService
-      };
-      await submitRequest(requestData);
-      setSubmitted(true);
-      // Reset form
-      setFormData({
-        contactName: '',
-        contactEmail: '',
-        contactPhone: '',
-        serviceType: selectedService,
-        documentType: '',
-        language: '',
-        urgency: 'standard',
-        quantity: 1,
-        specialInstructions: ''
-      });
-    } catch (err) {
-      // Error is handled by the hook
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const value = e.target.name === 'quantity' ? parseInt(e.target.value) || 1 : e.target.value;
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: value
-    }));
+  const handleWhatsAppInquiry = (serviceTitle: string) => {
+    const message = `Hi, I would like to inquire about ${serviceTitle} service. Could you please provide me with more details and pricing?`;
+    const whatsappUrl = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   const services = [
@@ -59,7 +15,6 @@ const DocumentServices: React.FC = () => {
       id: 'translation',
       title: 'Document Translation',
       icon: FileText,
-      price: 'Starting from AED 50',
       description: 'Professional translation services for all document types',
       features: [
         'Certified Translations',
@@ -74,7 +29,6 @@ const DocumentServices: React.FC = () => {
       id: 'stamps',
       title: 'Stamp Making',
       icon: Stamp,
-      price: 'AED 25 - 150',
       description: 'Custom rubber stamps and seals for businesses and individuals',
       features: [
         'Company Seals',
@@ -89,7 +43,6 @@ const DocumentServices: React.FC = () => {
       id: 'attestation',
       title: 'Certificate Attestation',
       icon: Award,
-      price: 'AED 200 - 800',
       description: 'Embassy and MOFA attestation for educational and personal documents',
       features: [
         'Educational Certificates',
@@ -104,7 +57,6 @@ const DocumentServices: React.FC = () => {
       id: 'rta-fines',
       title: 'RTA Fine Payment',
       icon: Car,
-      price: 'AED 20 service fee',
       description: 'Convenient payment of RTA traffic fines and violations',
       features: [
         'Online Payment',
@@ -119,7 +71,6 @@ const DocumentServices: React.FC = () => {
       id: 'visa-typing',
       title: 'Visa Typing',
       icon: CreditCard,
-      price: 'AED 30 - 100',
       description: 'Professional visa application form filling and typing services',
       features: [
         'Application Forms',
@@ -134,7 +85,6 @@ const DocumentServices: React.FC = () => {
       id: 'tenancy',
       title: 'Tenancy Contract Typing',
       icon: Building,
-      price: 'AED 100 - 200',
       description: 'Professional tenancy contract preparation and typing',
       features: [
         'Standard Contracts',
@@ -176,8 +126,7 @@ const DocumentServices: React.FC = () => {
             >
               <service.icon className="mb-3" size={32} />
               <h3 className="text-lg font-bold mb-2">{service.title}</h3>
-              <p className="text-sm mb-2">{service.description}</p>
-              <div className="font-semibold">{service.price}</div>
+              <p className="text-sm">{service.description}</p>
             </button>
           ))}
         </div>
@@ -232,153 +181,19 @@ const DocumentServices: React.FC = () => {
               <div>
                 <h3 className="text-xl font-bold text-navy-900 mb-4">Request Service</h3>
                 
-                {/* Success Message */}
-                {submitted && data && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
-                    <CheckCircle className="text-green-600 mr-3" size={20} />
-                    <span className="text-green-800">Document service request submitted successfully! We'll contact you shortly.</span>
-                  </div>
-                )}
-
-                {/* Error Message */}
-                {error && (
-                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
-                    <AlertCircle className="text-red-600 mr-3" size={20} />
-                    <span className="text-red-800">{error}</span>
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                    <input
-                      type="text"
-                      name="contactName"
-                      value={formData.contactName}
-                      onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="Your full name"
-                      required
-                    />
-                  </div>
+                <div className="text-center">
+                  <p className="text-gray-600 mb-6">
+                    Get in touch with us via WhatsApp for immediate assistance and personalized quotes for your document service needs.
+                  </p>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input
-                      type="email"
-                      name="contactEmail"
-                      value={formData.contactEmail}
-                      onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="your@email.com"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                    <input
-                      type="tel"
-                      name="contactPhone"
-                      value={formData.contactPhone}
-                      onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="+971 55 000 0000"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Document Type</label>
-                    <input
-                      type="text"
-                      name="documentType"
-                      value={formData.documentType}
-                      onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="e.g. Passport, Certificate, Contract"
-                      required
-                    />
-                  </div>
-
-                  {selectedService === 'translation' && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Language Required</label>
-                      <select 
-                        name="language"
-                        value={formData.language}
-                        onChange={handleChange}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                        required
-                      >
-                        <option value="">Select language</option>
-                        <option value="arabic">Arabic</option>
-                        <option value="english">English</option>
-                        <option value="hindi">Hindi</option>
-                        <option value="urdu">Urdu</option>
-                        <option value="filipino">Filipino</option>
-                        <option value="french">French</option>
-                      </select>
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-                    <input
-                      type="number"
-                      name="quantity"
-                      value={formData.quantity}
-                      onChange={handleChange}
-                      min="1"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Special Instructions</label>
-                    <textarea
-                      name="specialInstructions"
-                      value={formData.specialInstructions}
-                      onChange={handleChange}
-                      rows={4}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                      placeholder="Please describe your specific requirements..."
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Urgency</label>
-                    <select 
-                      name="urgency"
-                      value={formData.urgency}
-                      onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    >
-                      <option value="standard">Standard (3-5 days)</option>
-                      <option value="express">Express (1-2 days)</option>
-                      <option value="same_day">Same Day Service</option>
-                    </select>
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-yellow-500 text-navy-900 py-3 px-6 rounded-lg font-semibold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
+                  <button 
+                    onClick={() => handleWhatsAppInquiry(currentService?.title || 'Document Services')}
+                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center mx-auto"
                   >
-                    {loading ? (
-                      <>
-                        <Loader2 className="animate-spin mr-2" size={20} />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>
-                        Request Service
-                        <ArrowRight className="ml-2" size={20} />
-                      </>
-                    )}
+                    <MessageCircle className="mr-2" size={20} />
+                    Contact us on WhatsApp
                   </button>
-                </form>
+                </div>
               </div>
             </div>
           </div>

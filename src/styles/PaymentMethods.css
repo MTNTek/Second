@@ -1,0 +1,152 @@
+/* Payment Methods Styles */
+.payment-methods-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  border-radius: 2px;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.payment-method-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  min-height: 120px;
+}
+
+.payment-method-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #3b82f6;
+}
+
+/* Logo styling with background removal techniques */
+.payment-logo {
+  width: 60px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+  
+  /* Background removal techniques */
+  mix-blend-mode: multiply;
+  filter: contrast(1.2) brightness(1.1);
+}
+
+/* Specific adjustments for different payment methods */
+.paypal .payment-logo {
+  mix-blend-mode: normal;
+  filter: none;
+}
+
+.visa .payment-logo,
+.visa-master .payment-logo {
+  mix-blend-mode: multiply;
+  filter: contrast(1.3) brightness(0.9);
+}
+
+.skrill .payment-logo {
+  mix-blend-mode: multiply;
+  filter: contrast(1.1) brightness(1.05);
+}
+
+/* Icon styling for placeholder methods */
+.payment-icon {
+  width: 60px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  color: #64748b;
+  transition: color 0.3s ease;
+}
+
+.payment-method-card:hover .payment-icon {
+  color: #3b82f6;
+}
+
+.payment-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.payment-security {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.security-text {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .payment-methods-container {
+    padding: 1.5rem;
+  }
+  
+  .payment-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .payment-method-card {
+    padding: 1rem 0.5rem;
+    min-height: 100px;
+  }
+  
+  .payment-logo {
+    width: 50px;
+    height: 35px;
+  }
+}
