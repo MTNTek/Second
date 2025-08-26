@@ -71,8 +71,11 @@ function validateRequest(req: NextRequest): { isValid: boolean; reason?: string 
   const url = new URL(req.url)
   const searchParams = url.searchParams
   
-  // Check for malicious patterns in URL parameters (Fixed for Vercel)
-  const paramEntries = Array.from(searchParams.entries());
+  // Check for malicious patterns in URL parameters (Vercel Production Fix)
+  // Convert URLSearchParamsIterator to Array to avoid TypeScript compilation issues
+  const paramEntries: [string, string][] = Array.from(searchParams.entries())
+  
+  // Iterate through URL parameters safely
   for (const [key, value] of paramEntries) {
     if (detectSQLInjection(value)) {
       return { isValid: false, reason: 'SQL injection attempt detected' }
