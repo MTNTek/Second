@@ -6,7 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   // Performance optimizations
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true, // Disabled due to critters dependency issues
     optimizePackageImports: ['lucide-react'],
     serverComponentsExternalPackages: ['better-sqlite3', 'pg'],
   },
