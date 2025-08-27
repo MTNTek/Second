@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface HeroProps {
   setActiveSection: (section: string) => void;
@@ -15,35 +14,30 @@ const Hero: React.FC<HeroProps> = ({ setActiveSection }) => {
       id: 1,
       title: "Your Gateway to",
       highlight: "Global Success",
-      description: "From travel bookings to work permits, visa services to business support – we make your international journey seamless and stress-free.",
       image: "/DXB N2.jpg"
     },
     {
       id: 2,
       title: "Seamless Travel",
       highlight: "Experiences",
-      description: "Book flights, hotels, and complete travel packages with our expert travel consultants. Your dream destination is just a click away.",
       image: "/TOURISM.jpg"
     },
     {
       id: 3,
       title: "Visa & Work Permit",
       highlight: "Solutions",
-      description: "Navigate complex visa processes and work permit applications with confidence. Our experts ensure your documents are perfect.",
       image: "/AD1.jpg"
     },
     {
       id: 5,
       title: "Document & Business",
       highlight: "Services",
-      description: "Professional document translation, attestation, and comprehensive business support services to meet all your administrative needs.",
       image: "/WAREHOUSE 1.jpg"
     },
     {
       id: 6,
       title: "Direct Employment for",
       highlight: "Bike Riders",
-      description: "Join our network of professional bike riders with direct employment opportunities available both within the UAE and from your home country.",
       image: "/Bike2.jpg"
     }
   ];
@@ -109,7 +103,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveSection }) => {
               fill
               className="object-cover object-center"
               style={{ 
-                objectPosition: index === 1 ? '50% 45%' : '50% 30%' // Move slide 2 (TOURISM.jpg) down to show more bottom content
+                objectPosition: index === 1 ? '65% 65%' : '50% 30%' // Move slide 2 (airplane/TOURISM.jpg) to the right and show more bottom content
               }}
               priority={index === 0}
               sizes="100vw"
@@ -125,29 +119,6 @@ const Hero: React.FC<HeroProps> = ({ setActiveSection }) => {
         ))}
       </div>
       
-      {/* Enhanced Navigation Controls */}
-      <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20">
-        <button
-          onClick={prevSlide}
-          disabled={isTransitioning}
-          className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md hover:bg-white/30 transition-all duration-300 group shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed border border-white/20"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="text-white group-hover:scale-110 transition-transform duration-200" size={26} />
-        </button>
-      </div>
-      
-      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20">
-        <button
-          onClick={nextSlide}
-          disabled={isTransitioning}
-          className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md hover:bg-white/30 transition-all duration-300 group shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed border border-white/20"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="text-white group-hover:scale-110 transition-transform duration-200" size={26} />
-        </button>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="flex items-center justify-center min-h-[500px]">
           {/* Enhanced Content with Staggered Animations */}
@@ -172,18 +143,6 @@ const Hero: React.FC<HeroProps> = ({ setActiveSection }) => {
                 {currentSlideData.title}
                 <span className="text-yellow-400 block">{currentSlideData.highlight}</span>
               </h1>
-              
-              {/* Description with enhanced animation */}
-              <p 
-                className={`text-xl lg:text-2xl text-gray-100 leading-relaxed mb-8 transform transition-all duration-700 drop-shadow-lg max-w-3xl mx-auto ${
-                  isTransitioning 
-                    ? 'translate-y-8 opacity-0 scale-95' 
-                    : 'translate-y-0 opacity-100 scale-100'
-                }`}
-                style={{ transitionDelay: isTransitioning ? '0ms' : '300ms' }}
-              >
-                {currentSlideData.description}
-              </p>
             </div>
           </div>
         </div>
