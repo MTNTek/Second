@@ -12,7 +12,7 @@ const WorkPermits: React.FC = () => {
 
   const handleWhatsApp = (service: string) => {
     const message = `Hi, I would like to inquire about ${service}. Could you please provide me with more details?`;
-    const whatsappUrl = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/971566402340?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
@@ -441,7 +441,7 @@ const WorkPermits: React.FC = () => {
               { step: '1', title: 'Job Selection', desc: 'Choose from available positions' },
               { step: '2', title: 'Document Review', desc: 'Prepare required documents' },
               { step: '3', title: 'Application Submit', desc: 'Submit work permit application' },
-              { step: '4', title: 'Processing', desc: 'Wait for approval (4-8 weeks)' },
+              { step: '4', title: 'Processing', desc: 'Wait for approval 95-185 Working Days' },
               { step: '5', title: 'Travel & Work', desc: 'Travel to destination country' }
             ].map((item, index) => (
               <div key={index} className="text-center">
@@ -487,7 +487,7 @@ const WorkPermits: React.FC = () => {
 
         {/* Contact CTA */}
         <div className="mt-20 bg-navy-900 rounded-2xl p-8 text-center">
-          <h3 className="text-2xl font-bold text-white mb-4">Ready to Apply for Your Visa?</h3>
+          <h3 className="text-2xl font-bold text-white mb-4">Ready to Apply for Your Work Permit?</h3>
           <p className="text-gray-300 mb-6">Contact our visa experts for personalized assistance</p>
           <div className="flex gap-4 justify-center">
             <button

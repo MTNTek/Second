@@ -57,7 +57,7 @@ const Footer: React.FC<FooterProps> = ({ setActiveSection }) => {
               </div>
               <div className="flex items-center text-sm">
                 <Mail size={16} className="mr-2 text-yellow-400" />
-                <span>mandelatek@gmail.com</span>
+                <span>info@perryeden.com</span>
               </div>
             </div>
           </div>
@@ -108,8 +108,8 @@ const Footer: React.FC<FooterProps> = ({ setActiveSection }) => {
               <div className="flex items-start">
                 <Clock size={16} className="mr-2 text-yellow-400 mt-1 flex-shrink-0" />
                 <div className="text-sm text-gray-300">
-                  <p>Mon-Fri: 9:00 AM - 6:00 PM</p>
-                  <p>Saturday: 10:00 AM - 4:00 PM</p>
+                  <p>Mon-Fri: 9:00 AM - 9:00 PM</p>
+                  <p>Saturday: 10:00 AM - 6:00 PM</p>
                   <p>Sunday: Closed</p>
                 </div>
               </div>

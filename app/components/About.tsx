@@ -4,9 +4,9 @@ import { Users, Target, Eye, Award, Globe, Clock, ThumbsUp, Building } from 'luc
 
 const About: React.FC = () => {
   const stats = [
-    { icon: Users, value: '5,000+', label: 'Satisfied Clients' },
-    { icon: Globe, value: '50+', label: 'Countries Served' },
-    { icon: Award, value: '10+', label: 'Years Experience' },
+    { icon: Users, value: '500+', label: 'Satisfied Clients' },
+    { icon: Globe, value: '30+', label: 'Countries Served' },
+    { icon: Award, value: '5+', label: 'Years Experience' },
     { icon: ThumbsUp, value: '98%', label: 'Success Rate' }
   ];
 
@@ -72,10 +72,8 @@ const About: React.FC = () => {
               About Perry Eden Group
             </h1>
           </div>
-          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Perry Eden Group of Companies was founded with a mission to simplify travel, visa, and business services 
-            for individuals and organizations worldwide. We pride ourselves on delivering quick, reliable, and 
-            professional assistance with transparency and customer satisfaction at the core of everything we do.
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-tight">
+            Perry Eden Group of Companies was founded with a mission to simplify travel, visa, and business services for individuals and organizations worldwide. We pride ourselves on delivering quick, reliable, and professional assistance with transparency and customer satisfaction at the core of everything we do.
           </p>
         </div>
 
@@ -110,32 +108,26 @@ const About: React.FC = () => {
               <h2 className="text-3xl font-bold text-navy-900 mb-6">Our Story</h2>
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 <p>
-                  Established in Dubai, UAE, Perry Eden Group began as a small visa consultation service 
-                  with a simple goal: to make international travel and business processes accessible to everyone.
+                  Established in Dubai, UAE, Perry Eden Group of Companies began as a small visa consultancy and document clearing service with a clear goal: to make international travel and business processes accessible to everyone.
                 </p>
                 <p>
-                  Over the years, we have expanded our services to include comprehensive travel solutions, 
-                  work permit assistance, document services, and business support. Our growth has been 
-                  driven by our commitment to excellence and our clients' success stories.
+                  Over the years, we have grown into a trusted provider of comprehensive travel solutions, work permit assistance, document services, and business support. This growth has been fueled by our dedication to excellence and the success stories of our clients.
                 </p>
                 <p>
-                  Today, we serve clients from over 50 countries and have helped thousands of individuals 
-                  and businesses achieve their international goals. Our team of experts brings together 
-                  decades of combined experience in immigration, travel, and business services.
+                  Today, we proudly serve clients in over 20 countries, helping thousands of individuals and businesses achieve their international goals. Our team of experts brings together decades of combined experience in immigration, travel, and business services, ensuring reliable solutions at every step.
                 </p>
                 <p>
-                  We continue to innovate and expand our services while maintaining our core values of 
-                  integrity, professionalism, and customer-first approach.
+                  As we look to the future, we continue to innovate and expand our services while staying true to our core values: integrity, professionalism, and a customer-first approach.
                 </p>
               </div>
             </div>
             
             <div className="relative">
               {/* Company Building Illustration */}
-              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl p-8 text-center">
-                <Building className="mx-auto mb-4 text-white" size={64} />
+              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl p-4 text-center max-w-xs mx-auto">
+                <Building className="mx-auto mb-3 text-white" size={48} />
                 <h3 className="text-white text-xl font-bold mb-2">Dubai Headquarters</h3>
-                <p className="text-white/90 text-sm">
+                <p className="text-white/90 text-sm leading-tight">
                   Al Qiyada Metro Station Exit 2<br/>
                   Al Kazim Building Block A<br/>
                   Abu Saif Business Center<br/>
@@ -146,7 +138,8 @@ const About: React.FC = () => {
           </div>
         </div>
 
-        {/* Team */}
+        {/* Team - DISABLED */}
+        {/*
         <div className="mb-20">
           <h2 className="text-3xl font-bold text-center text-navy-900 mb-12">Meet Our Team</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -160,6 +153,7 @@ const About: React.FC = () => {
             ))}
           </div>
         </div>
+        */}
 
         {/* Why Choose Us */}
         <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg mb-20">
@@ -218,8 +212,8 @@ const About: React.FC = () => {
               },
               {
                 title: 'Dubai Chamber Member',
-                description: 'Proud member of Dubai Chamber of Commerce and Industry.',
-                year: '2020'
+                description: 'Proud member of Dubai Chamber of Commerce and Industry. 2025',
+                year: '2025'
               },
               {
                 title: 'Customer Choice Award',

@@ -4,7 +4,7 @@ import { MessageCircle, Phone } from 'lucide-react';
 const VisaServices: React.FC = () => {
   const handleWhatsApp = (service: string) => {
     const message = `Hello, I'm interested in ${service}. Could you please provide more information?`;
-    const whatsappURL = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
+    const whatsappURL = `https://wa.me/971566402340?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, '_blank');
   };
 

@@ -6,7 +6,7 @@ const DocumentServices: React.FC = () => {
 
   const handleWhatsAppInquiry = (serviceTitle: string) => {
     const message = `Hi, I would like to inquire about ${serviceTitle} service. Could you please provide me with more details and pricing?`;
-    const whatsappUrl = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/971566402340?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

@@ -359,7 +359,7 @@ docker run -p 3000:3000 --env-file .env.production perry-eden-group
 - **Performance**: Run `npm run performance:audit`
 
 ### 📧 **Business Inquiries**
-- **Email**: contact@perryedengroup.com
+- **Email**: info@perryeden.com
 - **Website**: [perryedengroup.com](https://perryedengroup.com)
 - **Services**: Professional travel, visa, and work permit assistance
 

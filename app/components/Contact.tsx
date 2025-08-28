@@ -70,7 +70,7 @@ const Contact: React.FC = () => {
     {
       icon: Mail,
       title: 'Email',
-      details: 'mandelatek@gmail.com',
+      details: 'info@perryeden.com',
       description: 'Send us your inquiries anytime'
     },
     {
@@ -82,14 +82,14 @@ const Contact: React.FC = () => {
     {
       icon: MessageCircle,
       title: 'WhatsApp',
-      details: '+971 4 332 8700',
+      details: '+971 56 640 2340',
       description: 'Chat with us instantly'
     }
   ];
 
   const officeHours = [
-    { day: 'Monday - Friday', hours: '9:00 AM - 6:00 PM' },
-    { day: 'Saturday', hours: '10:00 AM - 4:00 PM' },
+    { day: 'Monday - Friday', hours: '9:00 AM - 9:00 PM' },
+    { day: 'Saturday', hours: '10:00 AM - 6:00 PM' },
     { day: 'Sunday', hours: 'Closed' }
   ];
 
@@ -123,7 +123,16 @@ const Contact: React.FC = () => {
                 <info.icon className="text-white" size={28} />
               </div>
               <h3 className="text-lg font-bold text-navy-900 mb-2">{info.title}</h3>
-              <p className="text-gray-700 font-medium mb-2">{info.details}</p>
+              {info.title === 'Email' ? (
+                <a 
+                  href={`mailto:${info.details}`}
+                  className="text-blue-600 hover:text-blue-800 font-medium mb-2 block transition-colors duration-200"
+                >
+                  {info.details}
+                </a>
+              ) : (
+                <p className="text-gray-700 font-medium mb-2">{info.details}</p>
+              )}
               <p className="text-sm text-gray-600">{info.description}</p>
             </div>
           ))}
@@ -285,28 +294,28 @@ const Contact: React.FC = () => {
             <div className="bg-white rounded-2xl p-6 shadow-lg">
               <h3 className="text-xl font-bold text-navy-900 mb-4">Quick Actions</h3>
               
-              <div className="space-y-3">
+                            <div className="space-y-3 flex flex-col items-center">
                 <a
                   href="tel:+97143328700"
-                  className="w-full bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-400 transition-colors duration-200 flex items-center justify-center"
+                  className="w-48 bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-400 transition-colors duration-200 flex items-center justify-center"
                 >
                   <Phone className="mr-2" size={18} />
                   Call Now
                 </a>
                 
                 <a
-                  href="https://wa.me/97143328700"
+                  href="https://wa.me/971566402340"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-500 transition-colors duration-200 flex items-center justify-center"
+                  className="w-48 bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-500 transition-colors duration-200 flex items-center justify-center"
                 >
                   <MessageCircle className="mr-2" size={18} />
                   WhatsApp Chat
                 </a>
                 
                 <a
-                  href="mailto:mandelatek@gmail.com"
-                  className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-400 transition-colors duration-200 flex items-center justify-center"
+                  href="mailto:info@perryeden.com"
+                  className="w-48 bg-blue-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-400 transition-colors duration-200 flex items-center justify-center"
                 >
                   <Mail className="mr-2" size={18} />
                   Send Email
@@ -348,13 +357,18 @@ const Contact: React.FC = () => {
               <div className="flex flex-col items-center">
                 <Mail className="mb-3 text-yellow-400" size={32} />
                 <h4 className="text-lg font-semibold mb-2">Email Support</h4>
-                <p className="text-gray-300">mandelatek@gmail.com</p>
+                <a 
+                  href="mailto:info@perryeden.com"
+                  className="text-blue-400 hover:text-blue-300 transition-colors duration-200"
+                >
+                  info@perryeden.com
+                </a>
                 <p className="text-sm text-gray-400 mt-1">Response within 24 hours</p>
               </div>
               <div className="flex flex-col items-center">
                 <MessageCircle className="mb-3 text-yellow-400" size={32} />
                 <h4 className="text-lg font-semibold mb-2">WhatsApp Support</h4>
-                <p className="text-gray-300">+971 4 332 8700</p>
+                <p className="text-gray-300">+971 56 640 2340</p>
                 <p className="text-sm text-gray-400 mt-1">Instant messaging available</p>
               </div>
             </div>

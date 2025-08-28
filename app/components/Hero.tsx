@@ -20,7 +20,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveSection }) => {
       id: 2,
       title: "Seamless Travel",
       highlight: "Experiences",
-      image: "/TOURISM.jpg"
+      image: "/F.jpg"
     },
     {
       id: 3,
@@ -32,13 +32,13 @@ const Hero: React.FC<HeroProps> = ({ setActiveSection }) => {
       id: 5,
       title: "Document & Business",
       highlight: "Services",
-      image: "/WAREHOUSE 1.jpg"
+      image: "/documents.jpg"
     },
     {
       id: 6,
-      title: "Direct Employment for",
-      highlight: "Bike Riders",
-      image: "/Bike2.jpg"
+      title: "Direct Employment",
+      highlight: "",
+      image: "/employment.jpg"
     }
   ];
 
@@ -85,7 +85,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveSection }) => {
   const currentSlideData = slides[currentSlide];
 
   return (
-    <section className="relative text-white py-20 lg:py-32 overflow-hidden min-h-[700px]">
+    <section className="relative text-white py-16 lg:py-24 overflow-hidden min-h-[650px] lg:min-h-[950px]">
       {/* Enhanced Background Images with Crossfade - Adjusted positioning for better view */}
       <div className="absolute inset-0">
         {slides.map((slide, index) => (
@@ -103,7 +103,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveSection }) => {
               fill
               className="object-cover object-center"
               style={{ 
-                objectPosition: index === 1 ? '65% 65%' : '50% 30%' // Move slide 2 (airplane/TOURISM.jpg) to the right and show more bottom content
+                objectPosition: index === 1 ? '65% 65%' : index === 3 ? '50% 60%' : '50% 30%' // Slide 2: right+bottom, Slide 4: lower to show top portion
               }}
               priority={index === 0}
               sizes="100vw"

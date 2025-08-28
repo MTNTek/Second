@@ -77,7 +77,7 @@ export function generateApplicationEmailTemplate(
         </div>
         <div class="footer">
             <p>Perry Eden Group - Your Gateway to Global Success</p>
-            <p>Contact: +971 XX XXX XXXX | Email: info@perryedengroup.com</p>
+            <p>Contact: +971 XX XXX XXXX | Email: info@perryeden.com</p>
         </div>
     </body>
     </html>

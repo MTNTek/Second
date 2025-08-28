@@ -7,7 +7,7 @@ const UAEJobs: React.FC = () => {
 
   const handleWhatsAppInquiry = (jobTitle: string) => {
     const message = `Hi, I would like to inquire about the ${jobTitle} position. Could you please provide me with more details?`;
-    const whatsappUrl = `https://wa.me/971582200451?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/971566402340?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
@@ -157,7 +157,8 @@ const UAEJobs: React.FC = () => {
           </div>
         )}
 
-        {/* Statistics */}
+        {/* Statistics - DISABLED */}
+        {/*
         <div className="bg-white rounded-2xl p-8 shadow-lg mb-12">
           <h3 className="text-3xl font-bold text-center text-navy-900 mb-8">UAE Employment Statistics</h3>
           <div className="grid md:grid-cols-4 gap-8">
@@ -174,6 +175,7 @@ const UAEJobs: React.FC = () => {
             ))}
           </div>
         </div>
+        */}
       </div>
     </div>
   );
