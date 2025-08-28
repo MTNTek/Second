@@ -13,7 +13,8 @@ const UAEJobs: React.FC = () => {
 
   const categories = [
     { id: 'all', name: 'All Categories', icon: Briefcase },
-    { id: 'delivery', name: 'Delivery Services', icon: Users }
+    { id: 'delivery', name: 'Delivery Services', icon: Users },
+    { id: 'technical', name: 'Technical Services', icon: Briefcase }
   ];
 
   const jobs = [
@@ -28,6 +29,18 @@ const UAEJobs: React.FC = () => {
       experience: '1+ years',
       description: 'Delivery services across Dubai, reliable transportation, customer service oriented.',
       benefits: ['Transportation', 'Medical Insurance', 'Performance Bonus', 'Fuel Allowance']
+    },
+    {
+      id: 2,
+      title: 'Solar Panel Installation',
+      company: 'Perry Eden Group',
+      category: 'technical',
+      location: 'Abu Dhabi',
+      salary: 'AED 2,300',
+      type: 'Full-time',
+    experience: 'No experience needed',
+      description: '10 hours duty. Professional solar panel installation and maintenance services in Abu Dhabi.',
+      benefits: ['Medical Insurance', 'Transportation', 'Overtime Pay', 'Technical Training']
     }
   ];
 
